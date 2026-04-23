@@ -10,7 +10,7 @@ const products = [
     flavor: "Pineapple & Coconut",
     abv: "5% ABV", 
     prices: { single: 150, pack: 590 },
-    image: "/pina-paradise-cropped.jpg",
+    image: "/pina-paradise-cropped.webp",
     desc: "The classic tropical duo, reimagined."
   }
 ];

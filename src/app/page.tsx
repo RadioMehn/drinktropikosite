@@ -10,7 +10,7 @@ const products = [
     name: "Piña Paradise",
     flavor: "Pineapple & Coconut",
     abv: "5% ABV", 
-    image: "/pina-paradise-cropped.jpg",
+    image: "/pina-paradise-cropped.webp", //
     bgColor: "#FFF59D", 
   }
 ];
@@ -53,7 +53,7 @@ export default function Home() {
           
           <div className="hero-visual animate-on-scroll delay-100">
             <div className="hero-products">
-              <img src="/pina-paradise-cropped.jpg" alt="Piña Paradise Bottle" className="hero-img float-slow" />
+              <img src="/pina-paradise-cropped.webp" alt="Piña Paradise Bottle" className="hero-img float-slow" />
             </div>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function Home() {
           </div>
           <div className="contact-item">
             <h3>Phone Number</h3>
-            <a href="tel:+6309178282004">+63 09178282004</a>
+            <a href="tel:+6309953718983">+63 09953718983</a>
           </div>
         </div>
       </section>
