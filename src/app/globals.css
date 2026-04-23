@@ -148,22 +148,62 @@ header {
 .highlight-block h2 { color: var(--primary-green); margin-bottom: 15px; font-size: 2rem; }
 
 /* --- CATALOGUE --- */
-.product-card {
-    background: white; border-radius: 20px; overflow: hidden;
-    text-align: center; padding-bottom: 20px; box-shadow: var(--shadow);
-    transition: all 0.3s ease;
-}
-.product-card:hover { transform: scale(1.02); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+/* --- LINEUP / CATALOGUE UPGRADE --- */
 
-.card-img-container {
-    height: 250px; width: 100%;
-    display: flex; align-items: center; justify-content: center;
-    background: #f9f9f9; padding: 20px;
+/* --- ROBUST LINEUP FIX --- */
+.catalogue-showcase {
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 400px; /* Forces the section to have space */
 }
-.prod-img { height: 100%; width: auto; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1)); }
-.card-info { padding: 20px; }
-.card-info span { font-size: 0.9rem; color: var(--text-light); display: block; margin-bottom: 15px; }
 
+.product-card-premium {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Stable 2-column split */
+    background: white;
+    border-radius: 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    width: 100%;
+    max-width: 950px;
+    border: 1px solid rgba(168, 230, 207, 0.2);
+    min-height: 450px;
+}
+
+.showcase-img-container {
+    background-color: #FFF59D; /* Piña Paradise Yellow */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    position: relative;
+}
+
+.showcase-info {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    background: white;
+}
+
+/* Mobile Responsive Fix */
+@media (max-width: 850px) {
+    .product-card-premium {
+        grid-template-columns: 1fr;
+    }
+    .showcase-img-container {
+        padding: 30px;
+    }
+    .showcase-info {
+        padding: 40px 25px;
+        text-align: center;
+    }
+}
 /* --- SHOP PAGE --- */
 .shop-layout {
     display: grid; grid-template-columns: 2fr 1fr; gap: 40px;

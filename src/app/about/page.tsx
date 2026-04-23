@@ -73,7 +73,7 @@ export default function About() {
           </div>
           <div className="contact-item">
             <h3>Phone Number</h3>
-            <a href="tel:+6309178282004">+63 09178282004</a>
+            <a href="tel:+6309953718983">+63 09953718983</a>
           </div>
         </div>
       </section>

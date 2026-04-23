@@ -1,15 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image'; // 1. Imported the optimized Image component
 
 const products = [
- 
   {
     id: 'pina',
     name: "Piña Paradise",
     flavor: "Pineapple & Coconut",
     abv: "5% ABV", 
-    prices: { single: 150, pack: 590 },
+    prices: { single: 150, pack: 590 }, // Pricing updated
     image: "/pina-paradise-cropped.webp",
     desc: "The classic tropical duo, reimagined."
   }
@@ -18,9 +18,10 @@ const products = [
 export default function Shop() {
   const [cart, setCart] = useState<any[]>([]);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  
+  // Cleaned up the default state to only include your active product
   const [selections, setSelections] = useState<{ [key: string]: string }>({
-    oasis: 'single',
-    pina: 'single'
+    pina: 'single' 
   });
 
   const addToCart = (product: any) => {
@@ -33,7 +34,8 @@ export default function Shop() {
       if (existing) {
         return prev.map(item => item.cartId === cartId ? { ...item, qty: item.qty + 1 } : item);
       }
-      return [...prev, { cartId, name: product.name, sizeLabel: size === 'single' ? 'Single' : '6-Pack', price, qty: 1 }];
+      // Updated the label to reflect the new 4-Pack packaging
+      return [...prev, { cartId, name: product.name, sizeLabel: size === 'single' ? 'Single Bottle' : '4-Pack', price, qty: 1 }];
     });
   };
 
@@ -49,10 +51,8 @@ export default function Shop() {
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
   const cartItemCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
-  // Note: Add your Google Apps Script fetch logic to this function similar to your script.js
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      // ... convert file to base64 and fetch(SCRIPT_URL)
       alert("Checkout logic to be implemented here.");
   };
 
@@ -68,7 +68,15 @@ export default function Shop() {
           <div className="product-list">
             {products.map(prod => (
               <div className="shop-item" key={prod.id}>
-                <img src={prod.image} alt={prod.name} className="shop-thumb" />
+                {/* 2. Swapped to the Next.js Image component for bandwidth savings */}
+                <Image 
+                  src={prod.image} 
+                  alt={prod.name} 
+                  width={100} 
+                  height={100} 
+                  className="shop-thumb" 
+                  style={{ objectFit: 'contain' }}
+                />
                 <div className="shop-details">
                   <h4>{prod.name}</h4>
                   <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '8px' }}>{prod.desc}</p>
@@ -79,8 +87,9 @@ export default function Shop() {
                     value={selections[prod.id]} 
                     onChange={(e) => setSelections({...selections, [prod.id]: e.target.value})}
                   >
-                    <option value="single">Single Can - ₱{prod.prices.single}</option>
-                    <option value="pack">6-Pack - ₱{prod.prices.pack}</option>
+                    {/* 3. Updated pricing and 4-pack terminology */}
+                    <option value="single">Single Bottle - ₱{prod.prices.single}</option>
+                    <option value="pack">4-Pack - ₱{prod.prices.pack}</option>
                   </select>
                 </div>
                 <div className="shop-actions">
@@ -101,6 +110,7 @@ export default function Shop() {
                       <div style={{ fontSize: '0.8rem', color: '#666' }}>{item.sizeLabel}</div>
                       <div style={{ fontWeight: 700, fontSize: '0.9rem', marginTop: '2px' }}>₱{(item.price * item.qty).toLocaleString()}</div>
                     </div>
+                    {/* The quantity controls here naturally inherit your smooth CSS styling */}
                     <div className="qty-controls">
                       <button className="qty-btn" onClick={() => updateQty(item.cartId, -1)}>−</button>
                       <span>{item.qty}</span>
@@ -118,8 +128,6 @@ export default function Shop() {
           </div>
         </div>
       </section>
-      
-      {/* Implement Mobile Sticky Bar and Checkout Modal conditionally based on state */}
     </main>
   );
 }

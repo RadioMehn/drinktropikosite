@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Navbar() {
@@ -9,11 +10,19 @@ export default function Navbar() {
   const toggleNav = () => setNavActive(!navActive);
   const closeNav = () => setNavActive(false);
 
+  // THIS IS THE LINE THAT WAS MISSING OR BROKEN
   return (
     <header id="main-header">
       <div className="logo">
         <Link href="/" onClick={closeNav}>
-          <img src="/logo.png" alt="Tropiko Logo" />
+          <Image 
+            src="/logo.png" 
+            alt="Tropiko Logo" 
+            width={160} 
+            height={50} 
+            style={{ objectFit: 'contain' }}
+            priority={true} 
+          />
         </Link>
       </div>
       <nav>
@@ -22,7 +31,7 @@ export default function Navbar() {
           <li><Link href="/about" onClick={closeNav}>About Us</Link></li>
           <li><Link href="/lambanog" onClick={closeNav}>Lambanog 101</Link></li>
           <li><Link href="/#catalogue" onClick={closeNav}>Catalogue</Link></li>
-          <li><Link href="#contact" onClick={closeNav}>Contact</Link></li>
+          <li><Link href="/contact" onClick={closeNav}>Contact</Link></li>
           <li><Link href="/shop" className="nav-cta" onClick={closeNav}>Shop</Link></li>
         </ul>
         <div className={`burger ${navActive ? 'toggle' : ''}`} onClick={toggleNav}>
