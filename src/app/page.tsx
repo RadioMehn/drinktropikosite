@@ -100,39 +100,42 @@ export default function Home() {
       </section>
 
       <section id="catalogue" className="section-padding">
-        <div className="section-header animate-on-scroll">
-          <h2>Discover <span className="text-gradient">The Lineup</span></h2>
-          <p>Our signature tropical flavor, crafted for the golden hour.</p>
+  <div className="section-header animate-on-scroll">
+    <h2>Discover <span className="text-gradient">The Lineup</span></h2>
+  </div>
+  
+  <div className="catalogue-showcase">
+    {products.map((prod) => (
+      <div className="product-card-premium animate-on-scroll" key={prod.id}>
+        
+        {/* Yellow Block (Image Container) */}
+        <div className="showcase-img-container">
+          <Image 
+            src={prod.image} 
+            alt={prod.name} 
+            width={350} 
+            height={350} 
+            className="showcase-prod-img"
+            style={{ objectFit: 'contain' }}
+          />
         </div>
-        <div className="catalogue-showcase">
-          {products.map((prod) => (
-            <div className="product-card-premium animate-on-scroll delay-100" key={prod.id}>
-              <div className="showcase-img-container">
-                <Image
-                  src={prod.image}
-                  alt={prod.name}
-                  width={400}
-                  height={400}
-                  className="showcase-prod-img"
-                  style={{ objectFit: 'contain', borderRadius: '16px', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))' }}
-                />
-              </div>
-              <div className="showcase-info">
-                <h3 className="text-gradient">{prod.name}</h3>
-                <p className="showcase-flavor-desc">{prod.desc}</p>
-                <div style={{ marginBottom: '30px' }}>
-                  <span style={{ background: '#f0fff4', padding: '6px 16px', borderRadius: '20px', fontSize: '0.9rem', fontWeight: 500 }}>
-                    {prod.flavor} | {prod.abv}
-                  </span>
-                </div>
-                <Link href="/shop" className="btn btn-primary" style={{ width: 'fit-content' }}>
-                  Buy Now
-                </Link>
-              </div>
-            </div>
-          ))}
+
+        {/* White Block (Info Container) */}
+        <div className="showcase-info">
+          <h3 className="text-gradient">{prod.name}</h3>
+          <p className="showcase-flavor-desc">{prod.desc}</p>
+          <div style={{ marginBottom: '25px' }}>
+            <span style={{ background: '#f0fff4', padding: '6px 12px', borderRadius: '15px' }}>
+              {prod.flavor} | {prod.abv}
+            </span>
+          </div>
+          <Link href="/shop" className="btn btn-primary">Buy Now</Link>
         </div>
-      </section>
+
+      </div>
+    ))}
+  </div>
+</section>
     </main>
   );
 }

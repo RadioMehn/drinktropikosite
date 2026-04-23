@@ -272,99 +272,73 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
 .footer-content a { color: white; margin-left: 20px; text-decoration: none; opacity: 0.8; }
 .disclaimer { font-size: 0.8rem; opacity: 0.5; }
 
-/* --- COMPREHENSIVE MOBILE OVERHAUL --- */
+/* --- THE FINAL MOBILE-FIRST FIX --- */
 @media (max-width: 768px) {
-    /* Global Spacing Fixes */
-    .section-padding {
-        padding: 40px 15px; /* Tighter padding to give content room */
-    }
+    .section-padding { padding: 40px 15px; }
 
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; }
-
-    /* Fix: The Lineup Section (Home Page) */
+    /* Fix for the Discover The Lineup Section */
     .product-card-premium {
-        grid-template-columns: 1fr !important; /* Force stack vertically */
+        display: block !important; /* Switch from grid to block for maximum stability */
         max-width: 100%;
-        margin: 0 auto;
-        border-radius: 20px;
+        overflow: hidden;
     }
 
     .showcase-img-container {
         width: 100% !important;
+        height: 300px; /* Fixed height for the yellow "block" */
         padding: 20px;
-        min-height: 250px;
     }
 
     .showcase-info {
         width: 100% !important;
-        padding: 25px 15px !important;
+        padding: 30px 20px !important;
         text-align: center;
-        overflow: hidden; /* Stops text from leaking out */
+        background: white; /* Ensures the text block is grounded */
     }
 
-    /* Fixed: Title Clipping in "The Lineup" */
     .showcase-info h3 {
-        font-size: 1.6rem !important; 
-        white-space: normal;
-        word-wrap: break-word;
+        font-size: 1.7rem !important;
         line-height: 1.2;
+        margin-bottom: 15px;
     }
 
-    /* Fix: Shop Page Layout */
-    .shop-layout {
-        grid-template-columns: 1fr !important; /* Stack Product and Cart vertically */
+    /* Restoring the Burger Navigation */
+    .burger {
+        display: block !important;
+        cursor: pointer;
+        z-index: 101;
+    }
+
+    .nav-links {
+        position: fixed;
+        right: 0px;
+        height: 100vh;
+        top: 0;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        transform: translateX(100%);
+        transition: transform 0.4s ease-in-out;
+        z-index: 99;
         gap: 30px;
     }
 
-    .shop-item {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
+    .nav-active {
+        transform: translateX(0%);
     }
 
-    .shop-thumb {
-        width: 100px;
-        margin: 0 0 15px 0;
-    }
+    /* Burger Animation Lines */
+    .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+    .toggle .line2 { opacity: 0; }
+    .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+}
 
-    /* Fix: Cart Sidebar on Mobile */
-    .cart-sidebar {
-        position: relative !important; /* Stop it from being sticky on mobile */
-        top: 0 !important;
-        width: 100%;
-        margin-top: 20px;
-    }
-
-    .shop-actions {
-        width: 100%;
-        align-items: center;
-    }
-
-    .btn {
-        width: 100%; /* Full-width buttons for easier tapping */
-        padding: 14px;
-    }
-
-    /* Hero Fix */
-    .hero-container {
-        flex-direction: column;
-        text-align: center;
-        padding-top: 40px;
-    }
-
-    .hero-text {
-        padding-right: 0;
-        margin-bottom: 30px;
-    }
-
-    .hero-text h1 { font-size: 2.8rem; }
-    
-    /* Footer Mobile Fix */
-    .footer-content {
-        flex-direction: column;
-        gap: 20px;
-    }
+/* Ensure burger is hidden on desktop */
+@media (min-width: 769px) {
+    .burger { display: none; }
 }
 /* --- CART QUANTITY CONTROLS --- */
 .cart-item {

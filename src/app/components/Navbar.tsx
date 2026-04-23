@@ -10,7 +10,6 @@ export default function Navbar() {
   const toggleNav = () => setNavActive(!navActive);
   const closeNav = () => setNavActive(false);
 
-  // THIS IS THE LINE THAT WAS MISSING OR BROKEN
   return (
     <header id="main-header">
       <div className="logo">
@@ -26,6 +25,7 @@ export default function Navbar() {
         </Link>
       </div>
       <nav>
+        {/* The nav-active class is toggled here based on state */}
         <ul className={`nav-links ${navActive ? 'nav-active' : ''}`}>
           <li><Link href="/" onClick={closeNav}>Home</Link></li>
           <li><Link href="/about" onClick={closeNav}>About Us</Link></li>
@@ -34,6 +34,8 @@ export default function Navbar() {
           <li><Link href="/contact" onClick={closeNav}>Contact</Link></li>
           <li><Link href="/shop" className="nav-cta" onClick={closeNav}>Shop</Link></li>
         </ul>
+
+        {/* The burger div must be inside the nav to align with your CSS */}
         <div className={`burger ${navActive ? 'toggle' : ''}`} onClick={toggleNav}>
           <div className="line1"></div>
           <div className="line2"></div>
