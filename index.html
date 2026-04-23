@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tropiko | Piña Paradise</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">TROPIKO</div>
+        <ul class="nav-links">
+            <li><a href="#shop">Shop</a></li>
+            <li><a href="#spirit">Our Lambanog</a></li>
+            <li><a href="#about">Who We Are</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero" id="home">
+        <div class="hero-content">
+            <h1>Piña Paradise</h1>
+            <p>The Premium Coconut-Infused Lambanog Hard Seltzer.</p>
+            <a href="#shop" class="btn">Order Now</a>
+        </div>
+    </header>
+
+    <section class="shop-section" id="shop">
+        <div class="container">
+            <h2>Shop Piña Paradise</h2>
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="image-placeholder">Piña Paradise Bottle Mockup</div>
+                </div>
+                <div class="product-details">
+                    <h3>Piña Paradise Seltzer</h3>
+                    <p>A crisp, refreshing hard seltzer blending the tropical notes of natural coconut with the remarkably smooth finish of premium lambanog.</p>
+                    
+                    <div class="purchase-options">
+                        <label class="option-container">
+                            <input type="radio" name="pack-size" value="single" checked onchange="updatePrice()">
+                            <span class="checkmark"></span>
+                            Single 330ml Amber Glass Bottle
+                        </label>
+                        <label class="option-container">
+                            <input type="radio" name="pack-size" value="four-pack" onchange="updatePrice()">
+                            <span class="checkmark"></span>
+                            4-Pack (Corrugated Carrier)
+                        </label>
+                    </div>
+
+                    <div class="price-display">
+                        <h4 id="product-price">₱120.00</h4>
+                    </div>
+
+                    <button class="btn buy-btn" onclick="addToCart()">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="spirit-section" id="spirit">
+        <div class="container">
+            <h2>The Spirit of the Islands</h2>
+            <div class="spirit-grid">
+                <div class="spirit-text">
+                    <p>Not all spirits are created equal. We believe in elevating local traditions, which is why Tropiko is crafted using only the highest quality, <strong>FDA-certified lambanog</strong>.</p>
+                    <p>Through a meticulous <strong>double-distillation</strong> process, we strip away impurities to create a remarkably smooth, refined base. This ensures that the natural coconut infusion shines through without any harsh bite. It’s a clean, safe, and proudly Philippine seltzer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2>Who We Are</h2>
+            <p class="lead-text">Modernizing a Philippine classic.</p>
+            <p>Tropiko was born out of a desire to rethink how local spirits are experienced. We noticed a gap between traditional lambanog and the modern, accessible beverage market. Our goal was to create a drink that respects its heritage while offering the crisp, sessionable qualities of a premium hard seltzer.</p>
+            <p>From finalizing our flavor profile to designing the perfect packaging for our amber bottles, every step is a testament to our commitment to quality, local ingredients, and exceptional taste.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Tropiko. All Rights Reserved. Drink Responsibly.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
