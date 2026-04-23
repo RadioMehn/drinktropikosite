@@ -30,6 +30,12 @@ body { font-family: 'Outfit', sans-serif; background-color: var(--bg-white); col
 .section-padding { padding: var(--section-pad); }
 .full-width { width: 100%; }
 .highlight { color: var(--primary-green); }
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-green) 0%, #F5C64F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
 .active-link { color: var(--primary-green) !important; }
 .center-text { text-align: center; }
 
@@ -76,14 +82,14 @@ header {
 }
 
 .logo img {
-    height: 50px; /* INCREASE this number to make it bigger (e.g., 100px, 120px) */
-    width: auto;  /* Keeps the aspect ratio correct so it doesn't stretch */
+    height: 50px; 
+    width: auto;  
     display: block;
     transition: transform 0.3s ease;
 }
 
 .logo img:hover {
-    transform: scale(1.1); /* Slightly larger zoom when you hover over it */
+    transform: scale(1.1); 
 }
 .nav-links { display: flex; list-style: none; gap: 30px; }
 .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: color 0.3s; }
@@ -103,12 +109,18 @@ header {
 .hero-products { display: flex; gap: 10px; align-items: center; }
 
 .hero-img {
-    max-height: 400px; width: auto;
-    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.15));
-    transition: transform 0.3s;
+    max-height: 480px; 
+    width: auto;
+    border-radius: 24px; /* Curves the harsh corners of your photo */
+    box-shadow: 0 25px 50px rgba(0,0,0,0.12); /* Adds a premium, grounded shadow */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.hero-img:hover { transform: scale(1.05); }
 
+.hero-img:hover { 
+    transform: scale(1.02) translateY(-10px); 
+}
+
+/* We will keep the float animations for future transparent cans, but we won't use them on the square photo! */
 @keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-15px); }
@@ -179,7 +191,11 @@ header {
 .cart-total { display: flex; justify-content: space-between; font-weight: 700; margin: 20px 0; font-size: 1.2rem; }
 
 /* --- ANIMATIONS & MODAL --- */
-.animate-on-scroll { opacity: 1; transform: translateY(0px); transition: all 0.8s ease-out; }
+.animate-on-scroll { 
+    opacity: 0; 
+    transform: translateY(30); 
+    transition: all 0.8s ease-out; 
+}
 .visible { opacity: 1; transform: translateY(0); }
 .delay-100 { transition-delay: 0.1s; }
 .delay-200 { transition-delay: 0.2s; }
@@ -217,8 +233,6 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
 .disclaimer { font-size: 0.8rem; opacity: 0.5; }
 
 /* --- RESPONSIVE MOBILE MENU --- */
-
-/* 1. Burger Icon (Hidden on Desktop) */
 .burger {
     display: none;
     cursor: pointer;
@@ -231,9 +245,7 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
     transition: all 0.3s ease;
 }
 
-/* 2. Mobile Styles */
 @media (max-width: 768px) {
-    /* Layout Adjustments */
     .hero-container { flex-direction: column; text-align: center; justify-content: center; }
     .hero-text { padding-right: 0; margin-bottom: 40px; }
     .hero-text h1 { font-size: 2.5rem; }
@@ -243,34 +255,30 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
     .page-wrapper { padding-top: 100px; }
     .contact-box { flex-direction: column; }
     
-    /* Show Burger Icon */
     .burger { display: block; z-index: 1001; }
 
-    /* The Popup Tab (Hidden by default) */
     .nav-links {
         position: fixed;
         right: 0px;
         top: 0px;
         height: 100vh;
-        width: 60%; /* Width of the popup tab */
-        background: rgba(255, 255, 255, 0.95); /* High opacity glass */
+        width: 60%;
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center; /* Center links vertically */
-        gap: 40px; /* Space between links */
-        transform: translateX(100%); /* Push it off-screen to the right */
+        justify-content: center;
+        gap: 40px;
+        transform: translateX(100%);
         transition: transform 0.5s ease-in-out;
         z-index: 1000;
         box-shadow: -5px 0 15px rgba(0,0,0,0.1);
     }
 
-    /* Links inside mobile menu */
-    .nav-links li { opacity: 0; } /* Hide initially for animation */
+    .nav-links li { opacity: 0; } 
     
-    /* The CTA button on mobile */
     .nav-cta { 
         background: var(--primary-green); 
         color: var(--text-dark) !important;
@@ -279,18 +287,15 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
         display: block;
     }
 
-    /* Class added by JS to show menu */
     .nav-active {
         transform: translateX(0%);
     }
 
-    /* Burger Animation (Turn into X) */
     .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
     .toggle .line2 { opacity: 0; }
     .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
 }
 
-/* Keyframe for link fading */
 @keyframes navLinkFade {
     from { opacity: 0; transform: translateX(50px); }
     to { opacity: 1; transform: translateX(0); }
@@ -300,7 +305,7 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
 .cart-item {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Aligns buttons with text */
+    align-items: center; 
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
     padding-bottom: 15px;
@@ -329,7 +334,7 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
     justify-content: center;
     font-size: 1rem;
     line-height: 1;
-    padding: 0; /* fixes alignment */
+    padding: 0;
 }
 
 .qty-btn:hover {
@@ -339,10 +344,8 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
 }
 
 /* --- MOBILE SHOP OPTIMIZATIONS --- */
-
-/* 1. Mobile Sticky Bar Styles */
 .mobile-sticky-bar {
-    display: none; /* Hidden by default on desktop */
+    display: none; 
     position: fixed;
     bottom: 0;
     left: 0;
@@ -370,55 +373,40 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
     to { transform: translateY(0); }
 }
 
-/* 2. Mobile-Specific Adjustments */
 @media (max-width: 768px) {
-    /* Show the sticky bar on mobile */
     .mobile-sticky-bar { display: flex; }
-
-    /* Stack the shop items vertically for better visibility */
     .shop-item {
         flex-direction: column;
         text-align: center;
         padding: 25px 20px;
     }
-
     .shop-thumb {
-        width: 120px; /* Larger image */
+        width: 120px; 
         height: auto;
-        margin: 0 0 20px 0; /* Move margin to bottom */
+        margin: 0 0 20px 0; 
     }
-
     .shop-details {
         width: 100%;
         margin-bottom: 20px;
     }
-
-    /* Make the Add to Cart button full width */
     .shop-actions {
         width: 100%;
         align-items: center;
         gap: 15px;
     }
-    
     .shop-actions button {
-        width: 100%; /* Full width button is easier to tap */
-        padding: 14px; /* Taller touch target */
+        width: 100%; 
+        padding: 14px; 
     }
-
-    /* Fix iOS Input Zooming */
     input, select, textarea {
         font-size: 16px !important;
     }
-
-    /* Modal adjustments for small screens */
     .modal-content {
         width: 95%;
         padding: 20px;
         max-height: 85vh;
         margin: 10px;
     }
-    
-    /* Ensure the sticky bar doesn't cover the footer content */
     footer { padding-bottom: 100px; }
 }
 
@@ -433,12 +421,17 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
 }
 
 .benefit-item {
-    padding: 20px;
-    transition: transform 0.3s ease;
+    padding: 35px 25px;
+    transition: all 0.4s ease;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(168, 230, 207, 0.3); /* Subtle Tropiko green border */
 }
 
 .benefit-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(168, 230, 207, 0.15);
 }
 
 .benefit-icon {
@@ -449,7 +442,7 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
     height: 80px;
     line-height: 80px;
     border-radius: 50%;
-    margin: 0 auto 20px auto; /* Centers the icon */
+    margin: 0 auto 20px auto;
     box-shadow: 0 5px 15px rgba(168, 230, 207, 0.3);
 }
 

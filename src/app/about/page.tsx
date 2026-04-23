@@ -1,4 +1,26 @@
+'use client';
+
+import { useEffect } from 'react';
+
 export default function About() {
+  
+  // --- THE SCROLL ANIMATION ENGINE ---
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const hiddenElements = document.querySelectorAll('.animate-on-scroll');
+    hiddenElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect(); 
+  }, []);
+  // -----------------------------------
+
   return (
     <main className="page-wrapper">
       <section className="section-padding center-text">
@@ -8,7 +30,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Notice how the inline style was converted to a React object */}
       <section className="section-padding" style={{ backgroundColor: '#f9fdfb' }}>
         <div className="about-container">
           
@@ -23,10 +44,7 @@ export default function About() {
             <div className="highlight-content">
               <h2>Our Mission</h2>
               <p>Tropiko aims to provide Gen-Zs and working professionals in the Philippines a better-for-you and uniquely crafted drink through our Ready-to-Drink (RTD) lambanog-infused hard seltzer made with the latest technology. Unlike ordinary mixes, Tropiko contains less added sugar as well as the added benefits of coconut water.</p>
-              
-              {/* Notice the <br> tag is now self-closing: <br /> */}
               <br />
-              
               <p>We are committed to crafting authentic Filipino tropical flavors that spark unforgettable connections and bring people together – while driving sustainable growth and care for the planet. We believe our employees are our most valuable assets who can turn Tropiko’s vision into reality.</p>
             </div>
           </div>

@@ -1,4 +1,26 @@
+'use client';
+
+import { useEffect } from 'react';
+
 export default function Lambanog() {
+  
+  // --- THE SCROLL ANIMATION ENGINE ---
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const hiddenElements = document.querySelectorAll('.animate-on-scroll');
+    hiddenElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect(); 
+  }, []);
+  // -----------------------------------
+
   return (
     <main className="page-wrapper">
       <section className="section-padding center-text">
@@ -19,7 +41,6 @@ export default function Lambanog() {
             </div>
           </div>
 
-          {/* Notice the converted inline styles for the custom orange accents */}
           <div className="highlight-block animate-on-scroll delay-100" style={{ borderLeftColor: 'var(--accent-orange)' }}>
             <div className="highlight-content">
               <h2 style={{ color: 'var(--accent-orange)' }}>Addressing the Misconceptions</h2>
@@ -34,7 +55,6 @@ export default function Lambanog() {
               <h2>The Tropiko Standard</h2>
               <p>We take your safety seriously. Tropiko exclusively sources its Lambanog from <strong>credited, FDA-approved suppliers</strong> who adhere to strict distillation standards.</p>
               <br />
-              {/* Multiple inline styles combined into one React object */}
               <ul style={{ listStylePosition: 'inside', color: 'var(--text-dark)' }}>
                 <li><strong>Credited Suppliers:</strong> We do not use backyard sources. Our partners are fully licensed professionals.</li>
                 <li><strong>Lab Tested:</strong> We are committed to validating product safety and quality through lab testing with the Food and Nutrition Research Institute (FNRI).</li>

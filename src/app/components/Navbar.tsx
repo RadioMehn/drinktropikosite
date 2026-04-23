@@ -13,7 +13,7 @@ export default function Navbar() {
     <header id="main-header">
       <div className="logo">
         <Link href="/" onClick={closeNav}>
-          <img src="/images/logo.png" alt="Tropiko Logo" />
+          <img src="/logo.png" alt="Tropiko Logo" />
         </Link>
       </div>
       <nav>

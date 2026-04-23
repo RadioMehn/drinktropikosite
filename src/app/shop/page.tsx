@@ -3,22 +3,14 @@
 import { useState } from 'react';
 
 const products = [
-  {
-    id: 'oasis',
-    name: "Oasis Orange",
-    flavor: "Zesty Orange & Coconut",
-    abv: "5% ABV", 
-    prices: { single: 120, pack: 700 },
-    image: "/images/oasis.png",
-    desc: "A citrus explosion softened by creamy coconut."
-  },
+ 
   {
     id: 'pina',
     name: "Piña Paradise",
     flavor: "Pineapple & Coconut",
-    abv: "7% ABV", 
-    prices: { single: 120, pack: 700 },
-    image: "/images/pina.png",
+    abv: "5% ABV", 
+    prices: { single: 150, pack: 590 },
+    image: "/pina-paradise-cropped.jpg",
     desc: "The classic tropical duo, reimagined."
   }
 ];
