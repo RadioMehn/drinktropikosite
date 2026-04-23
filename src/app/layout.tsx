@@ -1,5 +1,6 @@
 import '../app/globals.css'
 import { Montserrat, Playfair_Display } from 'next/font/google'
+import Link from 'next/link'
 
 const montserrat = Montserrat({ 
   subsets: ['latin'], 
@@ -32,10 +33,10 @@ export default function RootLayout({
               TROPIKO
             </div>
             <ul className="hidden md:flex gap-8 font-semibold text-sm tracking-wide text-stone-600">
-              <li><a href="#shop" className="hover:text-amber-600 transition-colors">SHOP</a></li>
-              <li><a href="#spirit" className="hover:text-amber-600 transition-colors">OUR LAMBANOG</a></li>
-              <li><a href="#about" className="hover:text-amber-600 transition-colors">WHO WE ARE</a></li>
-            </ul>
+            <li><Link href="/" className="hover:text-amber-600 transition-colors">HOME</Link></li>
+            <li><Link href="/shop" className="hover:text-amber-600 transition-colors">SHOP</Link></li>
+            <li><Link href="/about" className="hover:text-amber-600 transition-colors">ABOUT US</Link></li>
+          </ul>
           </div>
         </nav>
 
