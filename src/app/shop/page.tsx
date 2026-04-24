@@ -71,7 +71,8 @@ export default function Shop() {
                   style={{ objectFit: 'contain' }}
                 />
                 
-                <div className="shop-details" style={{ textAlign: 'left' }}>
+                {/* Removed inline text-align here */}
+                <div className="shop-details">
                   <h3 style={{ marginBottom: '5px' }}>{prod.name}</h3>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '5px' }}>{prod.desc}</p>
                   <p style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--primary-green)', marginBottom: '10px' }}>{prod.abv}</p>
@@ -100,7 +101,8 @@ export default function Shop() {
                 cart.map(item => (
                   <div className="cart-item" key={item.cartId}>
                     
-                    <div style={{ flex: 1, paddingRight: '10px', textAlign: 'left' }}>
+                    {/* Removed inline text-align here */}
+                    <div className="cart-item-info">
                       <div style={{ fontWeight: 500, fontSize: '0.95rem' }}>{item.name}</div>
                       <div style={{ fontSize: '0.8rem', color: 'var(--text-light)' }}>{item.sizeLabel}</div>
                       <div style={{ fontWeight: 700, fontSize: '0.9rem', marginTop: '2px' }}>₱{(item.price * item.qty).toLocaleString()}</div>

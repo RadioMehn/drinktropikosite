@@ -219,6 +219,63 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
 /* ========================================= */
 @media (max-width: 768px) {
     .section-padding { padding: 50px 20px !important; }
+/* Mobile Shop Overrides */
+    .shop-layout {
+        grid-template-columns: 1fr !important; /* Forces vertical stacking */
+        gap: 20px;
+    }
+    
+    .shop-item {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px 20px;
+    }
+    
+    .shop-thumb {
+        margin: 0 auto 20px auto; /* Centers the bottle image */
+        width: 120px;
+        height: auto;
+    }
+    
+    .shop-details {
+        text-align: center; /* Centers text on mobile */
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .shop-actions {
+        width: 100%;
+        align-items: center;
+    }
+    
+    .shop-actions .btn {
+        width: 100%; /* Makes the Add to Cart button full-width and tap-friendly */
+    }
+    
+    .cart-sidebar {
+        position: relative !important;
+        top: 0 !important;
+        width: 100%;
+        margin-top: 20px;
+        padding: 20px;
+    }
+    
+    .cart-item {
+        flex-direction: column; /* Stacks the item name above the quantity controls */
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .cart-item-info {
+        width: 100%;
+        text-align: left;
+    }
+    
+    .qty-controls {
+        width: 100%;
+        justify-content: space-between; /* Spreads out the + and - buttons */
+        padding: 8px 15px;
+    }
 
     /* Hero Fix */
     .hero-container { flex-direction: column !important; text-align: center; padding-top: 30px; min-height: auto; }
