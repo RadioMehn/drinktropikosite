@@ -31,50 +31,28 @@ export default function About() {
       </section>
 
       <section className="section-padding" style={{ backgroundColor: '#f9fdfb' }}>
-        <div className="about-container">
+        {/* Added inline text-align to ensure the paragraphs don't inherit the center-text from the page body */}
+        <div className="about-container" style={{ textAlign: 'left' }}>
           
           <div className="highlight-block animate-on-scroll">
-            <div className="highlight-content">
-              <h2>Our Vision</h2>
-              <p>To become the leading ready-to-drink lambanog infused hard seltzer that offers young adults a uniquely Filipino, refreshing and convenient way to enjoy alcoholic beverages within the Philippines.</p>
-            </div>
+            <h2>Our Vision</h2>
+            <p>To become the leading ready-to-drink lambanog infused hard seltzer that offers young adults a uniquely Filipino, refreshing and convenient way to enjoy alcoholic beverages within the Philippines.</p>
           </div>
 
           <div className="highlight-block animate-on-scroll delay-100">
-            <div className="highlight-content">
-              <h2>Our Mission</h2>
-              <p>Tropiko aims to provide Gen-Zs and working professionals in the Philippines a better-for-you and uniquely crafted drink through our Ready-to-Drink (RTD) lambanog-infused hard seltzer made with the latest technology. Unlike ordinary mixes, Tropiko contains less added sugar as well as the added benefits of coconut water.</p>
-              <br />
-              <p>We are committed to crafting authentic Filipino tropical flavors that spark unforgettable connections and bring people together – while driving sustainable growth and care for the planet. We believe our employees are our most valuable assets who can turn Tropiko’s vision into reality.</p>
-            </div>
+            <h2>Our Mission</h2>
+            <p>Tropiko aims to provide Gen-Zs and working professionals in the Philippines a better-for-you and uniquely crafted drink through our Ready-to-Drink (RTD) lambanog-infused hard seltzer made with the latest technology. Unlike ordinary mixes, Tropiko contains less added sugar as well as the added benefits of coconut water.</p>
+            {/* Replaced <br /> with a properly spaced paragraph */}
+            <p style={{ marginTop: '15px' }}>We are committed to crafting authentic Filipino tropical flavors that spark unforgettable connections and bring people together – while driving sustainable growth and care for the planet. We believe our employees are our most valuable assets who can turn Tropiko’s vision into reality.</p>
           </div>
 
           <div className="highlight-block animate-on-scroll delay-200">
-            <div className="highlight-content">
-              <h2>Who We Are</h2>
-              <p>We are a flexible, trend-aware Gen-Z team focused on bringing an authentic Filipino drinking experience to a growing market. By combining traditional lambanog with the hydrating properties of coconut water, we have created a product that is both culturally resonant and refreshing.</p>
-              <br />
-              <p>We are committed to supporting local farmers and producers by sourcing natural ingredients locally, ensuring our product highlights the best of Filipino flavors.</p>
-            </div>
+            <h2>Who We Are</h2>
+            <p>We are a flexible, trend-aware Gen-Z team focused on bringing an authentic Filipino drinking experience to a growing market. By combining traditional lambanog with the hydrating properties of coconut water, we have created a product that is both culturally resonant and refreshing. Experience Paradise In Every Sip.</p>
+            {/* Replaced <br /> with a properly spaced paragraph */}
+            <p style={{ marginTop: '15px' }}>We are committed to supporting local farmers and producers by sourcing natural ingredients locally, ensuring our product highlights the best of Filipino flavors.</p>
           </div>
 
-        </div>
-      </section>
-
-      <section id="contact" className="section-padding">
-        <div className="section-header animate-on-scroll">
-          <h2>Contact Details</h2>
-          <p>Reach out to the team.</p>
-        </div>
-        <div className="contact-box animate-on-scroll delay-100">
-          <div className="contact-item">
-            <h3>Business Inquiries</h3>
-            <a href="mailto:tropiko.ph.business@gmail.com">tropiko.ph.business@gmail.com</a>
-          </div>
-          <div className="contact-item">
-            <h3>Phone Number</h3>
-            <a href="tel:+6309953718983">+63 09953718983</a>
-          </div>
         </div>
       </section>
     </main>
