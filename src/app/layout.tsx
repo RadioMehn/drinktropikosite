@@ -1,6 +1,8 @@
 import './globals.css';
 import Navbar from './components/Navbar';
 import AgeGate from './components/AgeGate';
+import Footer from './components/Footer'; // 1. Import the new component
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'Tropiko | Lambanog Hard Seltzer',
@@ -22,17 +24,14 @@ export default function RootLayout({
       <body>
         <AgeGate />
         <Navbar />
+        
         {children}
-        <footer>
-          <div className="footer-content">
-            <div className="brand">TROPIKO © {new Date().getFullYear()}</div>
-            <div className="links">
-              <a href="https://www.instagram.com/drinktropiko/" target="_blank" rel="noreferrer">Instagram</a>
-              <a href="https://www.tiktok.com/@drinktropiko" target="_blank" rel="noreferrer">TikTok</a>
-            </div>
-          </div>
-          <p className="disclaimer">Please Drink Responsibly.</p>
-        </footer>
+        
+        <Analytics /> 
+        
+        {/* 2. Drop in your clean component! */}
+        <Footer /> 
+        
       </body>
     </html>
   );
