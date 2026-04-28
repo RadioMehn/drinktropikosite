@@ -50,8 +50,8 @@ body { font-family: 'Outfit', sans-serif; background-color: var(--bg-white); col
     font-weight: 500; cursor: pointer; transition: all 0.3s ease; 
     border: none; font-size: 1rem; width: fit-content;
 }
-.btn-primary { background-color: var(--primary-green); color: var(--text-dark); }
-.btn-primary:hover { background-color: var(--secondary-green); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(168, 230, 207, 0.4); }
+.btn-primary { background: transparent; border: 2px solid var(--primary-green); color: var(--text-dark); }
+.btn-primary:hover { background-color: var(--primary-green); transform: translateY(0px); box-shadow: 0 5px 15px rgba(168, 230, 207, 0.4); }
 .btn-outline { background: transparent; border: 2px solid var(--primary-green); color: var(--text-dark); }
 .btn-outline:hover { background: var(--primary-green); }
 
@@ -66,8 +66,8 @@ header {
 .logo img { height: 50px; width: auto; display: block; transition: transform 0.3s ease; }
 .logo img:hover { transform: scale(1.05); }
 
-.nav-links { display: flex; list-style: none; gap: 30px; align-items: center; }
-.nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: color 0.3s; }
+.nav-links { display: flex; list-style: none; gap: 5px; align-items: center; }
+.nav-links a { padding: 8px 10px; text-decoration: none; color: var(--text-dark); font-weight: 500; transition: color 0.3s; }
 .nav-cta { padding: 8px 20px !important; background: var(--primary-green); border-radius: 20px; }
 .burger { display: none; } 
 
@@ -133,7 +133,7 @@ header {
 .delay-300 { transition-delay: 0.3s; }
 
 /* --- FOOTER --- */
-footer { background: var(--text-dark); color: white; padding: 40px 20px; text-align: center; }
+footer { background: var(--text-dark); color: white; padding: 40px 20px; text-align: center; min-height: 20vh;}
 .footer-content { display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto 20px; align-items: center; }
 .footer-content a { color: white; margin-left: 20px; text-decoration: none; opacity: 0.8; }
 .disclaimer { font-size: 0.8rem; opacity: 0.5; }
@@ -198,7 +198,7 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
 .contact-item {
     background: white; padding: 40px 30px; border-radius: 24px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); border: 1px solid rgba(168, 230, 207, 0.3);
-    flex: 1; min-width: 280px; transition: transform 0.4s ease, box-shadow 0.4s ease;
+    flex: 1; min-width: 280px; transition: transform 0.4s ease, box-shadow 0.4s ease; text-align: center;
 }
 .contact-item:hover {
     transform: translateY(-8px); box-shadow: 0 20px 40px rgba(168, 230, 207, 0.15);

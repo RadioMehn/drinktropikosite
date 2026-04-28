@@ -63,12 +63,12 @@ export default function Home() {
             <h3>Natural Electrolytes</h3>
             <p>Infused with real coconut water to keep you hydrated while you celebrate.</p>
           </div>
-          <div className="benefit-item animate-on-scroll delay-200">
+          <div className="benefit-item animate-on-scroll delay-100">
             <div className="benefit-icon">🍃</div>
             <h3>Less Sugar, More Fun</h3>
             <p>Just the natural sweetness of fruit and palm spirit.</p>
           </div>
-          <div className="benefit-item animate-on-scroll delay-300">
+          <div className="benefit-item animate-on-scroll delay-100">
             <div className="benefit-icon">🇵🇭</div>
             <h3>100% Filipino Crafted</h3>
             <p>Sourced from local farmers in Luzon.</p>

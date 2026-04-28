@@ -144,7 +144,28 @@ export default function Shop() {
           </div>
 
           <div className="cart-sidebar glass-panel sticky-cart">
-            <h3>Your Cart</h3>
+            
+            {/* --- ADDED CLEAR CART BUTTON HEADER --- */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <h3 style={{ margin: 0 }}>Your Cart</h3>
+              {cart.length > 0 && (
+                <button 
+                  onClick={() => setCart([])} 
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    color: '#ff7675', 
+                    cursor: 'pointer', 
+                    fontSize: '0.85rem', 
+                    fontWeight: 500, 
+                    textDecoration: 'underline' 
+                  }}
+                >
+                  Clear All
+                </button>
+              )}
+            </div>
+
             <div id="cart-items">
               {cart.length === 0 ? <p className="empty-msg" style={{ color: 'var(--text-light)' }}>Your cart is thirsty.</p> : (
                 cart.map(item => (

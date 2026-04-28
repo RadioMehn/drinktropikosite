@@ -66,7 +66,7 @@ export default function Lambanog() {
       </section>
 
       <section id="contact" className="section-padding">
-        <div className="section-header animate-on-scroll">
+        <div className="section-header animate-on-scroll center-text">
           <h2>Have Questions?</h2>
           <p>We believe in transparency. Reach out to us.</p>
         </div>
@@ -77,7 +77,7 @@ export default function Lambanog() {
           </div>
           <div className="contact-item">
             <h3>Phone Number</h3>
-            <a href="tel:+6309178282004">+63 09178282004</a>
+            <a href="tel:+6309953718983">+63 09953718983</a>
           </div>
         </div>
       </section>
