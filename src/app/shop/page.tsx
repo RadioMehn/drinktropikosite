@@ -3,24 +3,21 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-const products = [
-  {
-    id: 'pina',
-    name: "Piña Paradise",
-    flavor: "Pineapple & Coconut",
-    abv: "5% ABV", 
-    prices: { single: 150, pack: 590 },
-    image: "/pina-paradise-cropped.webp",
-    desc: "The classic tropical duo, reimagined."
-  }
-];
+const products = [{
+  id: 'pina',
+  name: "Piña Paradise",
+  flavor: "Pineapple & Coconut",
+  abv: "5% ABV", 
+  prices: { single: 150, pack: 590 },
+  image: "/pina-paradise-cropped.webp",
+  desc: "The classic tropical duo, reimagined."
+}];
 
 export default function Shop() {
   const [cart, setCart] = useState<any[]>([]);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   
-  // --- 1. NEW FORM STATE ---
-  const [customerInfo, setCustomerInfo] = useState({ name: '', email: '', phone: '' });
+  const [customerInfo, setCustomerInfo] = useState({ name: '', email: '', phone: '', location: '' });
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -53,9 +50,9 @@ export default function Shop() {
     }).filter(item => item.qty > 0));
   };
 
-  // --- 2. FILE VALIDATION LOGIC (5MB LIMIT) ---
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    
     if (file) {
       if (file.size > 5 * 1024 * 1024) { 
         alert("File too large! Proof of payment must be 5MB or smaller.");
@@ -63,26 +60,58 @@ export default function Shop() {
         return;
       }
       setProofFile(file);
+    } else {
+      setProofFile(null);
     }
   };
 
-  // --- 3. ORDER SUBMISSION HANDLER ---
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!proofFile) return alert("Please upload proof of payment.");
+    
+    // 1. Strict guard: File upload is mandatory
+    if (!proofFile) {
+      return alert("Please upload proof of payment.");
+    }
+
+    // 2. Strict guard: Philippine phone number format (09 followed by 9 digits)
+    const phPhoneRegex = /^09\d{9}$/;
+    if (!phPhoneRegex.test(customerInfo.phone)) {
+      return alert("Please enter a valid 11-digit Philippine phone number starting with 09.");
+    }
 
     setIsSubmitting(true);
     
-    // Logic to prepare data for Google Sheets/Drive later
-    console.log("Processing Order for:", customerInfo.name);
-    
-    // Simulate API call
-    setTimeout(() => {
-      alert("Order submitted! We'll verify your payment soon.");
-      setCart([]);
-      setIsCheckoutModalOpen(false);
+    try {
+      const formData = new FormData();
+      formData.append('name', customerInfo.name);
+      formData.append('email', customerInfo.email);
+      
+      // 3. Convert to +63 format before sending to Google Sheets
+      const formattedPhone = `+63${customerInfo.phone.substring(1)}`; 
+      formData.append('phone', formattedPhone);
+      
+      formData.append('location', customerInfo.location);
+      formData.append('orderSummary', JSON.stringify(cart));
+      formData.append('file', proofFile);
+      
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("Order submitted! We'll verify your payment soon.");
+        setCart([]);
+        setCustomerInfo({ name: '', email: '', phone: '', location: '' });
+        setIsCheckoutModalOpen(false);
+      } else {
+        throw new Error("Failed to submit order.");
+      }
+    } catch (error) {
+      alert("There was an error. Please try again or contact us directly.");
+    } finally {
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
 
   return (
@@ -99,7 +128,7 @@ export default function Shop() {
               <div className="shop-item" key={prod.id}>
                 <Image src={prod.image} alt={prod.name} width={100} height={100} className="shop-thumb" style={{ objectFit: 'contain' }} />
                 <div className="shop-details">
-                  <h3 style={{ marginBottom: '5px' }}>{prod.name}</h3>
+                  <h3>{prod.name}</h3>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '5px' }}>{prod.desc}</p>
                   <p style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--primary-green)', marginBottom: '10px' }}>{prod.abv}</p>
                   <select className="size-selector" value={selections[prod.id]} onChange={(e) => setSelections({...selections, [prod.id]: e.target.value})}>
@@ -115,26 +144,24 @@ export default function Shop() {
           </div>
 
           <div className="cart-sidebar glass-panel sticky-cart">
-            <h3 style={{ marginBottom: '20px' }}>Your Cart</h3>
+            <h3>Your Cart</h3>
             <div id="cart-items">
               {cart.length === 0 ? <p className="empty-msg" style={{ color: 'var(--text-light)' }}>Your cart is thirsty.</p> : (
                 cart.map(item => (
                   <div className="cart-item" key={item.cartId}>
                     <div className="cart-item-info">
-                      <div style={{ fontWeight: 500, fontSize: '0.95rem' }}>{item.name}</div>
+                      <div style={{ fontWeight: 500, fontSize: '0.95rem' }}>{item.name} x{item.qty}</div>
                       <div style={{ fontSize: '0.8rem', color: 'var(--text-light)' }}>{item.sizeLabel}</div>
-                      <div style={{ fontWeight: 700, fontSize: '0.9rem', marginTop: '2px' }}>₱{(item.price * item.qty).toLocaleString()}</div>
                     </div>
                     <div className="qty-controls">
                       <button className="qty-btn" onClick={() => updateQty(item.cartId, -1)}>−</button>
-                      <span>{item.qty}</span>
                       <button className="qty-btn" onClick={() => updateQty(item.cartId, 1)}>+</button>
                     </div>
                   </div>
                 ))
               )}
             </div>
-            <div className="cart-total" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', paddingTop: '15px', borderTop: '2px solid #eee', fontWeight: 'bold', fontSize: '1.2rem' }}>
+            <div className="cart-total" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', paddingTop: '15px', borderTop: '2px solid #eee', fontWeight: 'bold' }}>
               <span>Total:</span>
               <span>₱{cartTotal.toLocaleString()}</span>
             </div>
@@ -145,11 +172,10 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* --- 4. NEW CHECKOUT MODAL UI --- */}
       {isCheckoutModalOpen && (
         <div className="modal-overlay">
-          <div className="modal-content glass-panel">
-            <h2 style={{ marginBottom: '10px' }}>Checkout</h2>
+          <div className="modal-content glass-panel" style={{ maxWidth: '600px' }}>
+            <h2>Checkout</h2>
             <p style={{ marginBottom: '20px', fontSize: '0.9rem', color: 'var(--text-light)' }}>Please provide your details and payment proof.</p>
             
             <form onSubmit={handleSubmitOrder} className="checkout-form">
@@ -169,25 +195,46 @@ export default function Shop() {
               />
               <input 
                 type="tel" 
-                placeholder="Phone Number" 
+                placeholder="Phone Number (e.g., 0917...)" 
                 required 
+                pattern="^09\d{9}$"
+                title="Please enter a valid 11-digit Philippine phone number starting with 09"
                 value={customerInfo.phone} 
                 onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})} 
               />
+              <input 
+                type="text" 
+                placeholder="Delivery Address / Location" 
+                required 
+                value={customerInfo.location} 
+                onChange={(e) => setCustomerInfo({...customerInfo, location: e.target.value})} 
+              />
               
-              <div className="payment-notice" style={{ background: '#f0fff4', padding: '15px', borderRadius: '12px', textAlign: 'center' }}>
-                <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Total: ₱{cartTotal.toLocaleString()}</div>
-                <div style={{ fontSize: '0.8rem', marginTop: '5px' }}>GCash: 09XX XXX XXXX</div>
+              <div className="payment-section">
+                <h3>Total to Pay: <span className="highlight">₱{cartTotal.toLocaleString()}</span></h3>
+                
+                <div className="payment-qr-grid">
+                  <div className="qr-option">
+                    <Image src="/gcash-qr.jpg" alt="GCash QR" width={150} height={150} className="qr-img" priority />
+                    <p><strong>GCash</strong></p>
+                    <p>0917 581 0057</p>
+                  </div>
+                  <div className="qr-option">
+                    <Image src="/maya-qr.jpg" alt="Maya QR" width={150} height={150} className="qr-img" priority />
+                    <p><strong>Maya</strong></p>
+                    <p>0917 581 0057</p>
+                  </div>
+                </div>
               </div>
 
               <div className="file-input-group">
-                <label style={{ fontSize: '0.85rem', fontWeight: '500' }}>Proof of Payment (Max 5MB)</label>
+                <label style={{ fontSize: '0.85rem' }}>Upload Proof of Payment (Max 5MB)</label>
                 <input type="file" accept="image/*" required onChange={handleFileChange} />
               </div>
 
-              <div className="btn-group" style={{ marginTop: '10px' }}>
+              <div className="btn-group">
                 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-                  {isSubmitting ? 'Submitting...' : 'Confirm Order'}
+                  {isSubmitting ? 'Sending...' : 'Confirm Order'}
                 </button>
                 <button type="button" className="btn btn-outline" onClick={() => setIsCheckoutModalOpen(false)}>Cancel</button>
               </div>
