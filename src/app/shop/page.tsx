@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Added useEffect
 import Image from 'next/image';
 
 const products = [{
@@ -20,6 +20,14 @@ export default function Shop() {
   const [customerInfo, setCustomerInfo] = useState({ name: '', email: '', phone: '', location: '' });
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // --- ADDED ANIMATION STATE ---
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Triggers the animation a split second after the page loads
+    setIsMounted(true);
+  }, []);
 
   const [selections, setSelections] = useState<{ [key: string]: string }>({
     pina: 'single' 
@@ -114,8 +122,9 @@ export default function Shop() {
     }
   };
 
+   {/* --- ADDED ANIMATION CLASSES TO MAIN TAG --- */}
   return (
-    <main className="page-wrapper">
+    <main className={`page-wrapper animate-on-scroll ${isMounted ? 'visible' : ''}`}>
       <section id="shop" className="section-padding">
         <div className="section-header center-text" style={{ marginBottom: '40px' }}>
           <h1>Order Online</h1>
@@ -144,8 +153,6 @@ export default function Shop() {
           </div>
 
           <div className="cart-sidebar glass-panel sticky-cart">
-            
-            {/* --- ADDED CLEAR CART BUTTON HEADER --- */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
               <h3 style={{ margin: 0 }}>Your Cart</h3>
               {cart.length > 0 && (
@@ -193,6 +200,7 @@ export default function Shop() {
         </div>
       </section>
 
+      {/* Checkout Modal content remains the same... */}
       {isCheckoutModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content glass-panel" style={{ maxWidth: '600px' }}>
