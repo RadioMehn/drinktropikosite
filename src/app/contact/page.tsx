@@ -42,7 +42,7 @@ export default function Contact() {
           <div className="contact-item animate-on-scroll delay-200">
             <div style={{ fontSize: '2.5rem', marginBottom: '15px' }}>📞</div>
             <h3>Phone Number</h3>
-            <a href="tel:+6309953718983">+63 09953718983</a>
+            <a href="tel:+6309175350998">+63 09175350998</a>
           </div>
           
         </div>
