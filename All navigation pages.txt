@@ -1,0 +1,6 @@
+All navigation pages:
+- Title is delayed and pops up after the content
+- shop page has no scroll bar 
+
+Footer: 
+- Make it consistent throughout all pages
