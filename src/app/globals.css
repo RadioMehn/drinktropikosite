@@ -298,10 +298,23 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
     .burger div { width: 25px; height: 3px; background-color: var(--text-dark); margin: 5px; transition: all 0.3s ease; }
     
     .nav-links {
-        position: fixed; right: 0; top: 0; height: 100vh; width: 100%;
-        background-color: var(--bg-white); display: flex; flex-direction: column;
-        justify-content: center; align-items: center; gap: 40px;
-        transform: translateX(100%); transition: transform 0.4s ease-in-out; z-index: 1000;
+        position: fixed; 
+        right: 0; 
+        /* Pushes the menu down exactly the height of your header so it doesn't cover it */
+        top: 80px; 
+        height: calc(100vh - 80px); 
+        width: 100%;
+        background-color: var(--bg-white); 
+        display: flex; 
+        flex-direction: column;
+        justify-content: flex-start; /* Aligns links to the top instead of dead center */
+        padding-top: 40px; /* Adds breathing room above the links */
+        align-items: center; 
+        gap: 40px;
+        transform: translateX(100%); 
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+        z-index: 990; 
+        box-shadow: -5px 10px 20px rgba(0,0,0,0.05); /* Adds a nice drop shadow edge */
     }
     .nav-active { transform: translateX(0%); }
     .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
