@@ -65,8 +65,8 @@ export default function Home() {
           </div>
           <div className="benefit-item animate-on-scroll delay-100">
             <div className="benefit-icon">🍃</div>
-            <h3>Less Sugar, More Fun</h3>
-            <p>Just the natural sweetness of fruit and palm spirit.</p>
+            <h3>Flavored by Natural Fruits</h3>
+            <p>Using the natural sweetness of fresh fruit and palm spirit.</p>
           </div>
           <div className="benefit-item animate-on-scroll delay-100">
             <div className="benefit-icon">🇵🇭</div>
