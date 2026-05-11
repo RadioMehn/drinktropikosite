@@ -183,12 +183,16 @@ footer { background: var(--text-dark); color: white; padding: 40px 20px; text-al
 .age-gate-logo { margin-bottom: 30px; display: flex; justify-content: center; }
 .age-gate-content h2 { font-size: 2.2rem; color: var(--text-dark); margin-bottom: 15px; }
 .age-gate-content p { color: var(--text-light); font-size: 1.1rem; margin-bottom: 35px; }
-.gate-buttons { display: flex; flex-direction: column; gap: 15px; }
+
+/* THE FIX: Added align-items: center here to force the buttons into the middle */
+.gate-buttons { display: flex; flex-direction: column; align-items: center; gap: 15px; }
 
 @media (min-width: 768px) {
     .gate-buttons { flex-direction: row; justify-content: center; }
 }
-.gate-buttons .btn { min-width: 180px; padding: 15px; }
+
+/* Added a 100% max-width so they don't break out of the box on extremely tiny phones */
+.gate-buttons .btn { min-width: 180px; max-width: 100%; padding: 15px; }
 
 /* --- CONTACT PAGE STYLES --- */
 .contact-box {
