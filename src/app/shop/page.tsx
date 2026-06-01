@@ -246,12 +246,12 @@ export default function Shop() {
                   <div className="qr-option">
                     <Image src="/gcash-qr.jpg" alt="GCash QR" width={150} height={150} className="qr-img" priority />
                     <p><strong>GCash</strong></p>
-                    <p>0917 581 0057</p>
+                    <p>0995 371 8983</p>
                   </div>
                   <div className="qr-option">
                     <Image src="/maya-qr.jpg" alt="Maya QR" width={150} height={150} className="qr-img" priority />
                     <p><strong>Maya</strong></p>
-                    <p>0917 581 0057</p>
+                    <p>0917 535 0098</p>
                   </div>
                 </div>
               </div>
