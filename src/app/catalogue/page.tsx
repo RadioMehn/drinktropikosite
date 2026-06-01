@@ -59,7 +59,8 @@ export default function Catalogue() {
                 <h3 className="text-gradient">{prod.name}</h3>
                 <p className="showcase-flavor-desc">{prod.desc}</p>
                 <div style={{ marginBottom: '25px' }}>
-                  <span style={{ background: '#f0fff4', padding: '6px 16px', borderRadius: '15px', fontWeight: '500' }}>
+                  {/* THE FIX: Swapped hardcoded background for dynamic CSS variables */}
+                  <span style={{ background: 'var(--highlight-bg)', color: 'var(--text-dark)', padding: '6px 16px', borderRadius: '15px', fontWeight: '500' }}>
                     {prod.flavor} | {prod.abv}
                   </span>
                 </div>

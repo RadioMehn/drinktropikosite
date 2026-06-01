@@ -30,8 +30,8 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section-padding" style={{ backgroundColor: '#f9fdfb' }}>
-        {/* Added inline text-align to ensure the paragraphs don't inherit the center-text from the page body */}
+      {/* THE FIX: Removed the inline style completely so the background flows seamlessly */}
+      <section className="section-padding">
         <div className="about-container" style={{ textAlign: 'left' }}>
           
           <div className="highlight-block animate-on-scroll">
@@ -42,14 +42,12 @@ export default function About() {
           <div className="highlight-block animate-on-scroll delay-100">
             <h2>Our Mission</h2>
             <p>Tropiko aims to provide Gen-Zs and working professionals in the Philippines a better-for-you and uniquely crafted drink through our Ready-to-Drink (RTD) lambanog-infused hard seltzer made with the latest technology. Unlike ordinary mixes, Tropiko contains less added sugar as well as the added benefits of coconut water.</p>
-            {/* Replaced <br /> with a properly spaced paragraph */}
             <p style={{ marginTop: '15px' }}>We are committed to crafting authentic Filipino tropical flavors that spark unforgettable connections and bring people together – while driving sustainable growth and care for the planet. We believe our employees are our most valuable assets who can turn Tropiko’s vision into reality.</p>
           </div>
 
           <div className="highlight-block animate-on-scroll delay-200">
             <h2>Who We Are</h2>
             <p>We are a flexible, trend-aware Gen-Z team focused on bringing an authentic Filipino drinking experience to a growing market. By combining traditional lambanog with the hydrating properties of coconut water, we have created a product that is both culturally resonant and refreshing. Experience Paradise In Every Sip.</p>
-            {/* Replaced <br /> with a properly spaced paragraph */}
             <p style={{ marginTop: '15px' }}>We are committed to supporting local farmers and producers by sourcing natural ingredients locally, ensuring our product highlights the best of Filipino flavors.</p>
           </div>
 

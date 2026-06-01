@@ -30,7 +30,8 @@ export default function Lambanog() {
         </div>
       </section>
 
-      <section className="section-padding" style={{ backgroundColor: '#f9fdfb' }}>
+      {/* THE FIX: Removed the hardcoded #f9fdfb background for a seamless flow */}
+      <section className="section-padding">
         <div className="about-container">
           <div className="highlight-block animate-on-scroll">
             <div className="highlight-content">

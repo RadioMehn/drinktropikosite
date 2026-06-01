@@ -77,7 +77,7 @@ export default function Home() {
       </section>
 
       {/* About Preview Section */}
-      <section id="about-summary" className="section-padding center-text" style={{ background: "linear-gradient(to bottom, white, #f0fff4)" }}>
+      <section id="about-summary" className="section-padding center-text" style={{ background: "linear-gradient(to bottom, var(--bg-white), var(--payment-bg))" }}>
         <div className="section-header animate-on-scroll">
           <h2>The Tropiko Vibe</h2>
           <p style={{ maxWidth: '750px', margin: '20px auto', fontSize: '1.1rem', lineHeight: '1.8' }}>

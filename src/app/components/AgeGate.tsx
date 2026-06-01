@@ -34,7 +34,7 @@ export default function AgeGate() {
       <div className="age-gate-content animate-on-scroll visible">
         <div className="age-gate-logo">
            {/* Branding the gate to match Tropiko's aesthetic */}
-           <Image src="/logo.png" alt="Tropiko Logo" width={180} height={60} />
+           <Image src="/logo.svg" alt="Tropiko Logo" width={180} height={60} />
         </div>
         
         <h2>Welcome to Paradise.</h2>
