@@ -78,7 +78,7 @@ export async function POST(req: Request) {
 
     // 3. Append to Google Sheet 
     await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID!,
+      spreadsheetId: '1J1TuWHWFKLoT9eYcOazS-rtB4UCgJB54GPR-8o1_ukw',
       range: 'Sheet1!A:H',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
