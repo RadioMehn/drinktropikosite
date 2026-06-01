@@ -8,11 +8,11 @@ const products = [
   {
     id: 'pina',
     name: "Piña Paradise",
-    flavor: "Pineapple & Coconut",
+    flavor: "Pineapple",
     abv: "5% ABV", 
     image: "/pina-paradise-cropped.webp",
     bgColor: "#FFF59D",
-    desc: "The classic tropical duo, reimagined. A light and refreshing blend of naturally sweet pineapples and smooth coconut water, balanced with heritage lambanog spirit."
+    desc: "The classic tropical fruit, reimagined. A light and refreshing blend of naturally sweet pineapples and smooth coconut water, balanced with heritage lambanog spirit."
   }
 ];
 

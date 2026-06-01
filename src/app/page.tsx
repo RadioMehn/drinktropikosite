@@ -55,7 +55,6 @@ export default function Home() {
       <section id="benefits" className="section-padding center-text" style={{ background: "var(--bg-white)" }}>
         <div className="section-header animate-on-scroll">
           <h2>Why Sip <span className="text-gradient">Tropiko?</span></h2>
-          <p style={{ color: 'var(--text-light)', marginTop: '10px' }}>The better-for-you booze that hits different.</p>
         </div>
         <div className="benefits-grid">
           <div className="benefit-item animate-on-scroll delay-100">
