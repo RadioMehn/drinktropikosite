@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react'; // Added useEffect
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const products = [{
@@ -122,10 +122,10 @@ export default function Shop() {
     }
   };
 
-   {/* --- ADDED ANIMATION CLASSES TO MAIN TAG --- */}
   return (
-    <main className={`page-wrapper animate-on-scroll ${isMounted ? 'visible' : ''}`}>
-      <section id="shop" className="section-padding">
+    <main className="page-wrapper">
+      {/* THE FIX: Moved animation classes from <main> to <section> to prevent modal stacking trap */}
+      <section id="shop" className={`section-padding animate-on-scroll ${isMounted ? 'visible' : ''}`}>
         <div className="section-header center-text" style={{ marginBottom: '40px' }}>
           <h1>Order Online</h1>
           <p>Get Tropiko delivered to your door.</p>
@@ -200,7 +200,7 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* Checkout Modal content remains the same... */}
+      {/* Checkout Modal */}
       {isCheckoutModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content glass-panel" style={{ maxWidth: '600px' }}>
