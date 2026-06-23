@@ -17,15 +17,24 @@ export default function Shop() {
   const [cart, setCart] = useState<any[]>([]);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   
-  const [customerInfo, setCustomerInfo] = useState({ name: '', email: '', phone: '', location: '' });
+  const [customerInfo, setCustomerInfo] = useState({ 
+    email: '', 
+    firstName: '', 
+    lastName: '', 
+    company: '',
+    address: '',
+    apartment: '',
+    postalCode: '',
+    city: '',
+    region: 'Metro Manila (NCR)',
+    phone: '' 
+  });
+  
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // --- ADDED ANIMATION STATE ---
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    // Triggers the animation a split second after the page loads
     setIsMounted(true);
   }, []);
 
@@ -76,12 +85,10 @@ export default function Shop() {
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // 1. Strict guard: File upload is mandatory
     if (!proofFile) {
       return alert("Please upload proof of payment.");
     }
 
-    // 2. Strict guard: Philippine phone number format (09 followed by 9 digits)
     const phPhoneRegex = /^09\d{9}$/;
     if (!phPhoneRegex.test(customerInfo.phone)) {
       return alert("Please enter a valid 11-digit Philippine phone number starting with 09.");
@@ -91,14 +98,25 @@ export default function Shop() {
     
     try {
       const formData = new FormData();
-      formData.append('name', customerInfo.name);
+      
+      const fullName = `${customerInfo.firstName} ${customerInfo.lastName}`.trim();
+      const fullAddress = [
+        customerInfo.company,
+        customerInfo.address,
+        customerInfo.apartment,
+        customerInfo.city,
+        customerInfo.region,
+        customerInfo.postalCode,
+        'Philippines'
+      ].filter(val => val && val.trim() !== '').join(', ');
+
+      formData.append('name', fullName);
       formData.append('email', customerInfo.email);
       
-      // 3. Convert to +63 format before sending to Google Sheets
       const formattedPhone = `+63${customerInfo.phone.substring(1)}`; 
       formData.append('phone', formattedPhone);
       
-      formData.append('location', customerInfo.location);
+      formData.append('location', fullAddress);
       formData.append('orderSummary', JSON.stringify(cart));
       formData.append('file', proofFile);
       
@@ -110,7 +128,10 @@ export default function Shop() {
       if (response.ok) {
         alert("Order submitted! We'll verify your payment soon.");
         setCart([]);
-        setCustomerInfo({ name: '', email: '', phone: '', location: '' });
+        setCustomerInfo({ 
+          email: '', firstName: '', lastName: '', company: '', 
+          address: '', apartment: '', postalCode: '', city: '', region: 'Metro Manila (NCR)', phone: '' 
+        });
         setIsCheckoutModalOpen(false);
       } else {
         throw new Error("Failed to submit order.");
@@ -124,7 +145,6 @@ export default function Shop() {
 
   return (
     <main className="page-wrapper">
-      {/* THE FIX: Moved animation classes from <main> to <section> to prevent modal stacking trap */}
       <section id="shop" className={`section-padding animate-on-scroll ${isMounted ? 'visible' : ''}`}>
         <div className="section-header center-text" style={{ marginBottom: '40px' }}>
           <h1>Order Online</h1>
@@ -158,15 +178,7 @@ export default function Shop() {
               {cart.length > 0 && (
                 <button 
                   onClick={() => setCart([])} 
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
-                    color: '#ff7675', 
-                    cursor: 'pointer', 
-                    fontSize: '0.85rem', 
-                    fontWeight: 500, 
-                    textDecoration: 'underline' 
-                  }}
+                  style={{ background: 'none', border: 'none', color: '#ff7675', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 500, textDecoration: 'underline' }}
                 >
                   Clear All
                 </button>
@@ -203,62 +215,100 @@ export default function Shop() {
       {/* Checkout Modal */}
       {isCheckoutModalOpen && (
         <div className="modal-overlay">
-          <div className="modal-content glass-panel" style={{ maxWidth: '600px' }}>
-            <h2>Checkout</h2>
-            <p style={{ marginBottom: '20px', fontSize: '0.9rem', color: 'var(--text-light)' }}>Please provide your details and payment proof.</p>
+          <div className="modal-content glass-panel" style={{ maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto' }}>
+            <h2 style={{ marginBottom: '5px' }}>Checkout</h2>
+            <p style={{ marginBottom: '20px', fontSize: '0.9rem', color: 'var(--text-light)' }}>Please provide your shipping details.</p>
             
             <form onSubmit={handleSubmitOrder} className="checkout-form">
-              <input 
-                type="text" 
-                placeholder="Full Name" 
-                required 
-                value={customerInfo.name} 
-                onChange={(e) => setCustomerInfo({...customerInfo, name: e.target.value})} 
-              />
-              <input 
-                type="email" 
-                placeholder="Email Address" 
-                required 
-                value={customerInfo.email} 
-                onChange={(e) => setCustomerInfo({...customerInfo, email: e.target.value})} 
-              />
-              <input 
-                type="tel" 
-                placeholder="Phone Number (e.g., 0917...)" 
-                required 
-                pattern="^09\d{9}$"
-                title="Please enter a valid 11-digit Philippine phone number starting with 09"
-                value={customerInfo.phone} 
-                onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})} 
-              />
-              <input 
-                type="text" 
-                placeholder="Delivery Address / Location" 
-                required 
-                value={customerInfo.location} 
-                onChange={(e) => setCustomerInfo({...customerInfo, location: e.target.value})} 
-              />
+              
+              {/* Grouped Contact Info */}
+              <div style={{ background: 'var(--payment-bg)', padding: '20px', borderRadius: '12px', marginBottom: '20px' }}>
+                <h3 style={{ fontSize: '1.05rem', margin: '0 0 15px 0', color: 'var(--text-dark)' }}>Contact Information</h3>
+                <input 
+                  type="email" 
+                  placeholder="Email Address" 
+                  required 
+                  value={customerInfo.email} 
+                  onChange={(e) => setCustomerInfo({...customerInfo, email: e.target.value})} 
+                  style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} 
+                />
+                <input 
+                  type="tel" 
+                  placeholder="Phone Number (e.g., 0917...)" 
+                  required 
+                  pattern="^09\d{9}$"
+                  title="Please enter a valid 11-digit Philippine phone number starting with 09"
+                  value={customerInfo.phone} 
+                  onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})} 
+                  style={{ width: '100%', marginBottom: '0', boxSizing: 'border-box' }}
+                />
+              </div>
+
+              {/* Grouped Delivery Info */}
+              <div style={{ background: 'var(--payment-bg)', padding: '20px', borderRadius: '12px', marginBottom: '25px' }}>
+                <h3 style={{ fontSize: '1.05rem', margin: '0 0 15px 0', color: 'var(--text-dark)' }}>Delivery Address</h3>
+                
+                <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                  <input style={{ width: '100%', margin: 0, boxSizing: 'border-box' }} type="text" placeholder="First name" required value={customerInfo.firstName} onChange={e => setCustomerInfo({...customerInfo, firstName: e.target.value})} />
+                  <input style={{ width: '100%', margin: 0, boxSizing: 'border-box' }} type="text" placeholder="Last name" required value={customerInfo.lastName} onChange={e => setCustomerInfo({...customerInfo, lastName: e.target.value})} />
+                </div>
+
+                <input type="text" placeholder="Company (optional)" value={customerInfo.company} onChange={e => setCustomerInfo({...customerInfo, company: e.target.value})} style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} />
+                
+                <input type="text" placeholder="Address" required value={customerInfo.address} onChange={e => setCustomerInfo({...customerInfo, address: e.target.value})} style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} />
+                
+                <input type="text" placeholder="Apartment, suite, etc. (optional)" value={customerInfo.apartment} onChange={e => setCustomerInfo({...customerInfo, apartment: e.target.value})} style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} />
+
+                <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                  <input style={{ width: '100%', margin: 0, boxSizing: 'border-box' }} type="text" placeholder="Postal code" required value={customerInfo.postalCode} onChange={e => setCustomerInfo({...customerInfo, postalCode: e.target.value})} />
+                  <input style={{ width: '100%', margin: 0, boxSizing: 'border-box' }} type="text" placeholder="City" required value={customerInfo.city} onChange={e => setCustomerInfo({...customerInfo, city: e.target.value})} />
+                </div>
+
+                <select 
+                  value={customerInfo.region} 
+                  onChange={e => setCustomerInfo({...customerInfo, region: e.target.value})}
+                  style={{ width: '100%', marginBottom: '0', boxSizing: 'border-box' }}
+                >
+                  <option value="Metro Manila (NCR)">Metro Manila (NCR)</option>
+                  <option value="Cordillera Administrative Region (CAR)">Cordillera Administrative Region (CAR)</option>
+                  <option value="Ilocos Region (Region I)">Ilocos Region (Region I)</option>
+                  <option value="Cagayan Valley (Region II)">Cagayan Valley (Region II)</option>
+                  <option value="Central Luzon (Region III)">Central Luzon (Region III)</option>
+                  <option value="CALABARZON (Region IV-A)">CALABARZON (Region IV-A)</option>
+                  <option value="MIMAROPA (Region IV-B)">MIMAROPA (Region IV-B)</option>
+                  <option value="Bicol Region (Region V)">Bicol Region (Region V)</option>
+                  <option value="Western Visayas (Region VI)">Western Visayas (Region VI)</option>
+                  <option value="Central Visayas (Region VII)">Central Visayas (Region VII)</option>
+                  <option value="Eastern Visayas (Region VIII)">Eastern Visayas (Region VIII)</option>
+                  <option value="Zamboanga Peninsula (Region IX)">Zamboanga Peninsula (Region IX)</option>
+                  <option value="Northern Mindanao (Region X)">Northern Mindanao (Region X)</option>
+                  <option value="Davao Region (Region XI)">Davao Region (Region XI)</option>
+                  <option value="SOCCSKSARGEN (Region XII)">SOCCSKSARGEN (Region XII)</option>
+                  <option value="Caraga (Region XIII)">Caraga (Region XIII)</option>
+                  <option value="Bangsamoro (BARMM)">Bangsamoro (BARMM)</option>
+                </select>
+              </div>
               
               <div className="payment-section">
                 <h3>Total to Pay: <span className="highlight">₱{cartTotal.toLocaleString()}</span></h3>
                 
                 <div className="payment-qr-grid">
                   <div className="qr-option">
-                    <Image src="/gcash-qr.jpg" alt="GCash QR" width={150} height={150} className="qr-img" priority />
-                    <p><strong>GCash</strong></p>
-                    <p>0995 371 8983</p>
+                    <img src="/gcash-qr.jpg" alt="GCash QR" style={{ width: '150px', height: 'auto', maxHeight: '180px', objectFit: 'contain', borderRadius: '8px' }} />
+                    <p style={{ marginTop: '10px' }}><strong>GCash</strong></p>
+                    <p>0927 823 1363</p>
                   </div>
                   <div className="qr-option">
-                    <Image src="/maya-qr.jpg" alt="Maya QR" width={150} height={150} className="qr-img" priority />
-                    <p><strong>Maya</strong></p>
-                    <p>0917 535 0098</p>
+                    <img src="/maya-qr.jpg" alt="Maya QR" style={{ width: '150px', height: 'auto', maxHeight: '180px', objectFit: 'contain', borderRadius: '8px' }} />
+                    <p style={{ marginTop: '10px' }}><strong>Maya</strong></p>
+                    <p>0927 823 1363</p>
                   </div>
                 </div>
               </div>
 
               <div className="file-input-group">
                 <label style={{ fontSize: '0.85rem' }}>Upload Proof of Payment (Max 5MB)</label>
-                <input type="file" accept="image/*" required onChange={handleFileChange} />
+                <input type="file" accept="image/*" required onChange={handleFileChange} style={{ boxSizing: 'border-box' }} />
               </div>
 
               <div className="btn-group">
