@@ -77,9 +77,9 @@ export async function POST(req: Request) {
 
     const fileUrl = `https://drive.google.com/file/d/${driveResponse.data.id}/view`;
 
-    // 3. Append to Google Sheet 
+    // 3. Append to Google Sheet
     await sheets.spreadsheets.values.append({
-      spreadsheetId: '1J1TuWHWFKLoT9eYcOazS-rtB4UCgJB54GPR-8o1_ukw',
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
       range: 'Sheet1!A:H',
       valueInputOption: 'USER_ENTERED',
       requestBody: {
