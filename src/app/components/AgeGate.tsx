@@ -30,7 +30,8 @@ export default function AgeGate() {
   if (isVerified === null || isVerified === true) return null;
 
   return (
-    <div className="age-gate-overlay">
+    // THE FIX: Added an inline style to force the overlay background to Tropiko's soft mint green
+    <div className="age-gate-overlay" style={{ backgroundColor: '#f0fff4' }}>
       <div className="age-gate-content animate-on-scroll visible">
         <div className="age-gate-logo">
            {/* Branding the gate to match Tropiko's aesthetic */}
