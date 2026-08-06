@@ -1,7 +1,6 @@
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
 import { Readable } from 'stream';
-// Better way to handle file uploads in Next.js 
 import nodemailer from 'nodemailer';
 
 export async function POST(req: Request) {
@@ -16,21 +15,22 @@ export async function POST(req: Request) {
     
     const cart = JSON.parse(orderSummaryStr || '[]');
     
-    // NEW: Updated tracking variables for both flavors
     let pipa1Qty = 0;
     let pipa4Qty = 0;
+    let pipa24Qty = 0;
     let papu1Qty = 0;
     let papu4Qty = 0;
+    let papu24Qty = 0;
 
-    // NEW: Tally up quantities for Piña Paradise and Pakwan Punch
     cart.forEach((item: any) => {
       if (item.cartId === 'pina-single') pipa1Qty += item.qty;
       if (item.cartId === 'pina-pack') pipa4Qty += item.qty;
+      if (item.cartId === 'pina-case') pipa24Qty += item.qty;
       if (item.cartId === 'pakwan-single') papu1Qty += item.qty;
       if (item.cartId === 'pakwan-pack') papu4Qty += item.qty;
+      if (item.cartId === 'pakwan-case') papu24Qty += item.qty;
     });
 
-    // 1. Initialize OAuth2 Client (Personal Account Method)
     const oauth2Client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
@@ -44,7 +44,6 @@ export async function POST(req: Request) {
     const drive = google.drive({ version: 'v3', auth: oauth2Client });
     const sheets = google.sheets({ version: 'v4', auth: oauth2Client });
 
-    // --- DAILY FOLDER LOGIC --- 
     const today = new Date().toLocaleDateString('en-PH', { 
         year: 'numeric', month: 'long', day: 'numeric' 
     });
@@ -70,7 +69,6 @@ export async function POST(req: Request) {
       dailyFolderId = folderResponse.data.id;
     }
 
-    // 2. Upload Proof of Payment 
     const buffer = Buffer.from(await file.arrayBuffer());
     const driveResponse = await drive.files.create({
       requestBody: {
@@ -85,10 +83,9 @@ export async function POST(req: Request) {
 
     const fileUrl = `https://drive.google.com/file/d/${driveResponse.data.id}/view`;
 
-// 3. Append to Google Sheet (THE FIX: Changed range to force starting at Column A)
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID as string,
-      range: 'Sheet1!A:A', // Changed from 'Sheet1!A:J' to 'Sheet1!A:A'
+      range: 'Sheet1!A:A', 
       valueInputOption: 'USER_ENTERED',
       requestBody: {
         values: [[
@@ -97,18 +94,17 @@ export async function POST(req: Request) {
           name,                               // C: Name
           phone,                              // D: Phone Number
           location,                           // E: Location
-          pipa1Qty || 0,                      // F: PIPA 1 (Quantity)
-          pipa4Qty || 0,                      // G: PIPA 4 (Quantity)
-          papu1Qty || 0,                      // H: PAPU 1 (Quantity)
-          papu4Qty || 0,                      // I: PAPU 4 (Quantity)
-          fileUrl                             // J: Proof of Payment Link
+          pipa1Qty || 0,                      // F: PIPA 1
+          pipa4Qty || 0,                      // G: PIPA 4
+          pipa24Qty || 0,                     // H: PIPA 24 (Case)
+          papu1Qty || 0,                      // I: PAPU 1
+          papu4Qty || 0,                      // J: PAPU 4
+          papu24Qty || 0,                     // K: PAPU 24 (Case)
+          fileUrl                             // L: Proof of Payment Link
         ]],
       },
     });
 
-    // ==========================================
-    // --- AUTOMATED EMAIL CONFIRMATIONS ---
-    // ==========================================
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -117,10 +113,13 @@ export async function POST(req: Request) {
       },
     });
 
-    // 1. Calculate the total and build a shared Receipt HTML block
     const totalAmount = cart.reduce((sum: number, item: any) => {
-      // NEW: Checks if it is a single bottle for fallback pricing
-      const price = item.price || (item.cartId.includes('single') ? 150 : 600);
+      let price = item.price;
+      if (!price) {
+        if (item.cartId.includes('single')) price = 150;
+        else if (item.cartId.includes('pack')) price = 590;
+        else if (item.cartId.includes('case')) price = 3540;
+      }
       return sum + (price * item.qty);
     }, 0);
 
@@ -130,28 +129,29 @@ export async function POST(req: Request) {
         
         <ul style="list-style-type: none; padding: 0; margin: 0 0 20px 0;">
           ${cart.map((item: any) => {
-            // NEW: Added robust fallback naming for the new flavor
-            let fallbackName = 'Tropiko Hard Seltzer';
-            if (item.cartId === 'pina-single') fallbackName = 'Piña Paradise (Single)';
-            if (item.cartId === 'pina-pack') fallbackName = 'Piña Paradise (4-Pack)';
-            if (item.cartId === 'pakwan-single') fallbackName = 'Pakwan Punch (Single)';
-            if (item.cartId === 'pakwan-pack') fallbackName = 'Pakwan Punch (4-Pack)';
+            // THE FIX: Explicitly calling and styling both the item name and the exact size label
+            let fallbackSize = '';
+            if (item.cartId.includes('single')) fallbackSize = 'Single Bottle';
+            else if (item.cartId.includes('pack')) fallbackSize = '4-Pack';
+            else if (item.cartId.includes('case')) fallbackSize = 'Case of 24';
+
+            const itemName = item.name || (item.cartId.includes('pina') ? 'Piña Paradise' : 'Pakwan Punch');
+            const itemSize = item.sizeLabel || fallbackSize;
 
             return `
             <li style="padding: 10px 0; border-bottom: 1px solid rgba(168, 230, 207, 0.3); font-size: 16px; color: #2D3436;">
-              <strong>${item.qty}x</strong> ${item.name || fallbackName}
+              <strong>${item.qty}x</strong> ${itemName} <span style="color: #636E72; font-size: 14px; font-style: italic;">(${itemSize})</span>
             </li>
             `;
           }).join('')}
         </ul>
         
         <h3 style="margin: 0; color: #2D3436; font-size: 20px; border-top: 2px solid #A8E6CF; padding-top: 15px;">
-          <strong>Total Paid:</strong> ₱${totalAmount}
+          <strong>Total Paid:</strong> ₱${totalAmount.toLocaleString()}
         </h3>
       </div>
     `;
 
-    // 2. The Admin Notification (Sent to Tropiko)
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
@@ -173,7 +173,6 @@ export async function POST(req: Request) {
       `,
     };
 
-    // 3. The Customer Receipt (Sent to the Buyer)
     const customerMailOptions = {
       from: `"Tropiko" <${process.env.EMAIL_USER}>`,
       to: email as string, 
@@ -201,12 +200,10 @@ export async function POST(req: Request) {
       `,
     };
 
-    // Fire off both emails simultaneously
     await Promise.all([
       transporter.sendMail(adminMailOptions),
       transporter.sendMail(customerMailOptions)
     ]);
-    // ==========================================
 
     return NextResponse.json({ success: true });
 

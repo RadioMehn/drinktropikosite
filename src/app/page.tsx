@@ -28,23 +28,35 @@ export default function Home() {
           <div className="hero-text animate-on-scroll">
             <h1>Experience <span className="text-gradient">Paradise</span> In Every Sip.</h1>
             <p className="hero-sub">
-              Meet the taste that defines summer. <strong>Piña Paradise</strong>. 
-              Lambanog-infused hard seltzer for the golden hour.
+              Meet the flavors that define summer: <strong>Piña Paradise</strong> and the all-new <strong>Pakwan Punch</strong>. 
+              Lambanog-infused hard seltzers for the golden hour.
             </p>
             <div className="btn-group">
               <Link href="/shop" className="btn btn-primary">Shop Flavors</Link>
               <Link href="/about" className="btn btn-outline">Our Story</Link>
             </div>
           </div>
+          
           <div className="hero-visual animate-on-scroll delay-100">
-            <div className="hero-products">
+            {/* Added flexbox styling to cleanly display both bottles side-by-side */}
+            <div className="hero-products" style={{ display: 'flex', gap: '20px', justifyContent: 'center', alignItems: 'center' }}>
               <Image
                 src="/pina-paradise-cropped.webp"
                 alt="Piña Paradise Bottle"
                 className="hero-img"
-                width={500}
-                height={500}
+                width={350}
+                height={350}
                 priority={true}
+                style={{ objectFit: 'contain' }}
+              />
+              <Image
+                src="/pakwan-punch-cropped.webp"
+                alt="Pakwan Punch Bottle"
+                className="hero-img"
+                width={350}
+                height={350}
+                priority={true}
+                style={{ objectFit: 'contain' }}
               />
             </div>
           </div>

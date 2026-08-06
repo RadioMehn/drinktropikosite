@@ -3,15 +3,27 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-const products = [{
-  id: 'pina',
-  name: "Piña Paradise",
-  flavor: "Pineapple & Coconut",
-  abv: "5% ABV", 
-  prices: { single: 150, pack: 590 },
-  image: "/pina-paradise-cropped.webp",
-  desc: "The classic tropical duo, reimagined."
-}];
+// THE FIX: Added Pakwan Punch and the new "case" pricing to the products array
+const products = [
+  {
+    id: 'pina',
+    name: "Piña Paradise",
+    flavor: "Pineapple & Coconut",
+    abv: "5% ABV", 
+    prices: { single: 150, pack: 590, case: 3540 },
+    image: "/pina-paradise-cropped.webp",
+    desc: "The classic tropical duo, reimagined."
+  },
+  {
+    id: 'pakwan',
+    name: "Pakwan Punch",
+    flavor: "Watermelon & Coconut", // Feel free to adjust the flavor description!
+    abv: "5% ABV", 
+    prices: { single: 150, pack: 590, case: 3540 },
+    image: "/pakwan-punch-cropped.webp",
+    desc: "A refreshing splash of summer."
+  }
+];
 
 export default function Shop() {
   const [cart, setCart] = useState<any[]>([]);
@@ -38,23 +50,32 @@ export default function Shop() {
     setIsMounted(true);
   }, []);
 
+  // THE FIX: Initialized the default selection for both products
   const [selections, setSelections] = useState<{ [key: string]: string }>({
-    pina: 'single' 
+    pina: 'single',
+    pakwan: 'single'
   });
 
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
   const addToCart = (product: any) => {
     const size = selections[product.id];
-    const price = product.prices[size];
+    const price = product.prices[size as keyof typeof product.prices];
     const cartId = `${product.id}-${size}`;
+
+    // THE FIX: Added dynamic sizing labels to account for the Case of 24
+    const sizeLabels: { [key: string]: string } = {
+      single: 'Single Bottle',
+      pack: '4-Pack',
+      case: 'Case of 24'
+    };
 
     setCart(prev => {
       const existing = prev.find(item => item.cartId === cartId);
       if (existing) {
         return prev.map(item => item.cartId === cartId ? { ...item, qty: item.qty + 1 } : item);
       }
-      return [...prev, { cartId, name: product.name, sizeLabel: size === 'single' ? 'Single Bottle' : '4-Pack', price, qty: 1 }];
+      return [...prev, { cartId, name: product.name, sizeLabel: sizeLabels[size], price, qty: 1 }];
     });
   };
 
@@ -160,9 +181,12 @@ export default function Shop() {
                   <h3>{prod.name}</h3>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-light)', marginBottom: '5px' }}>{prod.desc}</p>
                   <p style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--primary-green)', marginBottom: '10px' }}>{prod.abv}</p>
+                  
+                  {/* THE FIX: Added the "Case of 24" option to the dropdown menu */}
                   <select className="size-selector" value={selections[prod.id]} onChange={(e) => setSelections({...selections, [prod.id]: e.target.value})}>
                     <option value="single">Single Bottle - ₱{prod.prices.single}</option>
                     <option value="pack">4-Pack - ₱{prod.prices.pack}</option>
+                    <option value="case">Case of 24 - ₱{prod.prices.case}</option>
                   </select>
                 </div>
                 <div className="shop-actions">
@@ -212,7 +236,7 @@ export default function Shop() {
         </div>
       </section>
 
-      {/* Checkout Modal */}
+      {/* Checkout Modal Content */}
       {isCheckoutModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content glass-panel" style={{ maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto' }}>
@@ -221,30 +245,12 @@ export default function Shop() {
             
             <form onSubmit={handleSubmitOrder} className="checkout-form">
               
-              {/* Grouped Contact Info */}
               <div style={{ background: 'var(--payment-bg)', padding: '20px', borderRadius: '12px', marginBottom: '20px' }}>
                 <h3 style={{ fontSize: '1.05rem', margin: '0 0 15px 0', color: 'var(--text-dark)' }}>Contact Information</h3>
-                <input 
-                  type="email" 
-                  placeholder="Email Address" 
-                  required 
-                  value={customerInfo.email} 
-                  onChange={(e) => setCustomerInfo({...customerInfo, email: e.target.value})} 
-                  style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} 
-                />
-                <input 
-                  type="tel" 
-                  placeholder="Phone Number (e.g., 0917...)" 
-                  required 
-                  pattern="^09\d{9}$"
-                  title="Please enter a valid 11-digit Philippine phone number starting with 09"
-                  value={customerInfo.phone} 
-                  onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})} 
-                  style={{ width: '100%', marginBottom: '0', boxSizing: 'border-box' }}
-                />
+                <input type="email" placeholder="Email Address" required value={customerInfo.email} onChange={(e) => setCustomerInfo({...customerInfo, email: e.target.value})} style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} />
+                <input type="tel" placeholder="Phone Number (e.g., 0917...)" required pattern="^09\d{9}$" title="Please enter a valid 11-digit Philippine phone number starting with 09" value={customerInfo.phone} onChange={(e) => setCustomerInfo({...customerInfo, phone: e.target.value})} style={{ width: '100%', marginBottom: '0', boxSizing: 'border-box' }} />
               </div>
 
-              {/* Grouped Delivery Info */}
               <div style={{ background: 'var(--payment-bg)', padding: '20px', borderRadius: '12px', marginBottom: '25px' }}>
                 <h3 style={{ fontSize: '1.05rem', margin: '0 0 15px 0', color: 'var(--text-dark)' }}>Delivery Address</h3>
                 
@@ -254,9 +260,7 @@ export default function Shop() {
                 </div>
 
                 <input type="text" placeholder="Company (optional)" value={customerInfo.company} onChange={e => setCustomerInfo({...customerInfo, company: e.target.value})} style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} />
-                
                 <input type="text" placeholder="Address" required value={customerInfo.address} onChange={e => setCustomerInfo({...customerInfo, address: e.target.value})} style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} />
-                
                 <input type="text" placeholder="Apartment, suite, etc. (optional)" value={customerInfo.apartment} onChange={e => setCustomerInfo({...customerInfo, apartment: e.target.value})} style={{ width: '100%', marginBottom: '10px', boxSizing: 'border-box' }} />
 
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
@@ -264,11 +268,7 @@ export default function Shop() {
                   <input style={{ width: '100%', margin: 0, boxSizing: 'border-box' }} type="text" placeholder="City" required value={customerInfo.city} onChange={e => setCustomerInfo({...customerInfo, city: e.target.value})} />
                 </div>
 
-                <select 
-                  value={customerInfo.region} 
-                  onChange={e => setCustomerInfo({...customerInfo, region: e.target.value})}
-                  style={{ width: '100%', marginBottom: '0', boxSizing: 'border-box' }}
-                >
+                <select value={customerInfo.region} onChange={e => setCustomerInfo({...customerInfo, region: e.target.value})} style={{ width: '100%', marginBottom: '0', boxSizing: 'border-box' }}>
                   <option value="Metro Manila (NCR)">Metro Manila (NCR)</option>
                   <option value="Cordillera Administrative Region (CAR)">Cordillera Administrative Region (CAR)</option>
                   <option value="Ilocos Region (Region I)">Ilocos Region (Region I)</option>
@@ -308,7 +308,7 @@ export default function Shop() {
 
               <div className="file-input-group">
                 <label style={{ fontSize: '0.85rem' }}>Upload Proof of Payment (Max 5MB)</label>
-                <input type="file" accept="image/*" required onChange={handleFileChange} style={{ boxSizing: 'border-box' }} />
+                <input type="file" accept="image/*" required onChange={handleFileChange} style={{ boxSizing: 'border-box', width: '100%' }} />
               </div>
 
               <div className="btn-group">

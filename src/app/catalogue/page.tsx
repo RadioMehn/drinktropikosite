@@ -13,6 +13,15 @@ const products = [
     image: "/pina-paradise-cropped.webp",
     bgColor: "#FFF59D",
     desc: "The classic tropical fruit, reimagined. A light and refreshing blend of naturally sweet pineapples and smooth coconut water, balanced with heritage lambanog spirit."
+  },
+  {
+    id: 'pakwan',
+    name: "Pakwan Punch",
+    flavor: "Watermelon",
+    abv: "5% ABV", 
+    image: "/pakwan-punch-cropped.webp",
+    bgColor: "#FFCDD2",
+    desc: "A summer staple, elevated. A crisp and cooling mix of fresh watermelon and smooth coconut water, finished with heritage lambanog spirit."
   }
 ];
 
@@ -37,7 +46,8 @@ export default function Catalogue() {
       <section className="section-padding">
         <div className="section-header animate-on-scroll center-text">
           <h1>Discover <span className="text-gradient">The Lineup</span></h1>
-          <p>Our signature tropical flavor, crafted for the golden hour.</p>
+          {/* Updated to "flavors" plural */}
+          <p>Our signature tropical flavors, crafted for the golden hour.</p>
         </div>
         
         <div className="catalogue-showcase" style={{ flexDirection: 'column', gap: '40px' }}>
@@ -59,7 +69,6 @@ export default function Catalogue() {
                 <h3 className="text-gradient">{prod.name}</h3>
                 <p className="showcase-flavor-desc">{prod.desc}</p>
                 <div style={{ marginBottom: '25px' }}>
-                  {/* THE FIX: Swapped hardcoded background for dynamic CSS variables */}
                   <span style={{ background: 'var(--highlight-bg)', color: 'var(--text-dark)', padding: '6px 16px', borderRadius: '15px', fontWeight: '500' }}>
                     {prod.flavor} | {prod.abv}
                   </span>
