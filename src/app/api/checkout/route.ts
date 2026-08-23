@@ -116,9 +116,9 @@ export async function POST(req: Request) {
     const totalAmount = cart.reduce((sum: number, item: any) => {
       let price = item.price;
       if (!price) {
-        if (item.cartId.includes('single')) price = 150;
-        else if (item.cartId.includes('pack')) price = 590;
-        else if (item.cartId.includes('case')) price = 3540;
+        if (item.cartId.includes('single')) price = 160;
+        else if (item.cartId.includes('pack')) price = 630;
+        else if (item.cartId.includes('case')) price = 3780;
       }
       return sum + (price * item.qty);
     }, 0);
@@ -129,26 +129,37 @@ export async function POST(req: Request) {
         
         <ul style="list-style-type: none; padding: 0; margin: 0 0 20px 0;">
           ${cart.map((item: any) => {
-            // THE FIX: Explicitly calling and styling both the item name and the exact size label
             let fallbackSize = '';
-            if (item.cartId.includes('single')) fallbackSize = 'Single Bottle';
-            else if (item.cartId.includes('pack')) fallbackSize = '4-Pack';
-            else if (item.cartId.includes('case')) fallbackSize = 'Case of 24';
+            let itemPrice = item.price;
+            
+            if (item.cartId.includes('single')) { fallbackSize = 'Single Bottle'; if (!itemPrice) itemPrice = 160; }
+            else if (item.cartId.includes('pack')) { fallbackSize = '4-Pack'; if (!itemPrice) itemPrice = 630; }
+            else if (item.cartId.includes('case')) { fallbackSize = 'Case of 24'; if (!itemPrice) itemPrice = 3780; }
 
             const itemName = item.name || (item.cartId.includes('pina') ? 'Piña Paradise' : 'Pakwan Punch');
             const itemSize = item.sizeLabel || fallbackSize;
+            const subtotal = itemPrice * item.qty;
 
             return `
-            <li style="padding: 10px 0; border-bottom: 1px solid rgba(168, 230, 207, 0.3); font-size: 16px; color: #2D3436;">
-              <strong>${item.qty}x</strong> ${itemName} <span style="color: #636E72; font-size: 14px; font-style: italic;">(${itemSize})</span>
+            <li style="padding: 12px 0; border-bottom: 1px solid rgba(168, 230, 207, 0.3); font-size: 16px; color: #2D3436; display: table; width: 100%;">
+              <div style="display: table-cell; vertical-align: middle;">
+                <strong>${item.qty}x</strong> ${itemName} <br/>
+                <span style="color: #636E72; font-size: 13px; font-style: italic;">${itemSize} @ ₱${itemPrice.toLocaleString()}</span>
+              </div>
+              <div style="display: table-cell; vertical-align: middle; text-align: right; font-weight: 600;">
+                ₱${subtotal.toLocaleString()}
+              </div>
             </li>
             `;
           }).join('')}
         </ul>
         
-        <h3 style="margin: 0; color: #2D3436; font-size: 20px; border-top: 2px solid #A8E6CF; padding-top: 15px;">
-          <strong>Total Paid:</strong> ₱${totalAmount.toLocaleString()}
-        </h3>
+        <div style="border-top: 2px solid #A8E6CF; padding-top: 15px; text-align: right;">
+          <h3 style="margin: 0; color: #2D3436; font-size: 20px;">
+            <span style="font-weight: normal; font-size: 16px; color: #636E72; margin-right: 8px;">Total Paid:</span> 
+            <strong>₱${totalAmount.toLocaleString()}</strong>
+          </h3>
+        </div>
       </div>
     `;
 

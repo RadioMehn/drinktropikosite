@@ -1,0 +1,26 @@
+1. Stage and Commit Your Code
+You can do this using the terminal or the VS Code interface:
+
+The Terminal Way: Inside your VS Code terminal, just run standard Git commands:
+
+git add .
+git commit -m "Updated lambanog flavor descriptions" """
+
+The Visual Way (Easier): Click the Source Control icon on the far left sidebar of VS Code (it looks like a branch with three nodes).
+Type your commit message in the box and click Commit.
+
+
+2. Push to GitHub
+Once your changes are committed, you just need to push them up to the cloud.
+
+In the terminal: git push
+
+In the visual menu: Click Sync Changes.
+
+Important Note on GitHub Authentication:
+Because this is a brand new environment on the NAS, the very first time you try to push, GitHub will need to verify it is really you. 
+Since GitHub no longer accepts standard passwords for terminal pushes, watch out for a pop-up in the bottom right corner of VS Code that says 
+"The extension 'GitHub' wants to sign in..."
+
+Click Allow. This will open a browser window on your laptop to securely pass your GitHub login through the Tailscale tunnel straight into the NAS. 
+Once you approve it, you will never have to log in again.

@@ -10,16 +10,16 @@ const products = [
     name: "Piña Paradise",
     flavor: "Pineapple & Coconut",
     abv: "5% ABV", 
-    prices: { single: 150, pack: 590, case: 3540 },
+    prices: { single: 160, pack: 630, case: 3780 },
     image: "/pina-paradise-cropped.webp",
     desc: "The classic tropical duo, reimagined."
   },
   {
     id: 'pakwan',
     name: "Pakwan Punch",
-    flavor: "Watermelon & Coconut", // Feel free to adjust the flavor description!
+    flavor: "Watermelon & Coconut",
     abv: "5% ABV", 
-    prices: { single: 150, pack: 590, case: 3540 },
+    prices: { single: 160, pack: 630, case: 3780 },
     image: "/pakwan-punch-cropped.webp",
     desc: "A refreshing splash of summer."
   }
